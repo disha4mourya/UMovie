@@ -3,4 +3,7 @@
     <string name="error">Error</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="movie_list_is_empty">List is empty.</string>
+    <string name="bad_request">Bad Request</string>
+    <string name="not_found">Not Found</string>
+    <string name="not_authorized">Unauthorized</string>
 </resources>

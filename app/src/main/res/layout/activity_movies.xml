@@ -46,8 +46,8 @@
 
         </RelativeLayout>
 
-        <ListView
-            android:id="@+id/lvSongs"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvMovies"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

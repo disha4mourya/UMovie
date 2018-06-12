@@ -10,7 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField("String","MOVIE_API_KEY",MOVIE_API_KEY)
+        buildConfigField("String", "MOVIE_API_KEY", MOVIE_API_KEY)
     }
     buildTypes {
         release {
@@ -18,8 +18,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding{
-        enabled=true
+    dataBinding {
+        enabled = true
     }
 
 }
@@ -35,6 +35,7 @@ dependencies {
     implementation deps.square.okhttp
     implementation deps.square.picasso
 
+    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
     testImplementation deps.test.junit
     androidTestImplementation deps.test.testRunner
     androidTestImplementation deps.test.expressoCore

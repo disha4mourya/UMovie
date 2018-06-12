@@ -4,6 +4,13 @@ import java.util.List;
 
 public class MovieResult {
 
-    List<MoviesEntity> result;
+    List<MoviesEntity> results;
 
+    public List<MoviesEntity> getResult() {
+        return results;
+    }
+
+    public void setResult(List<MoviesEntity> result) {
+        this.results = result;
+    }
 }

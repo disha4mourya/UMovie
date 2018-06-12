@@ -133,4 +133,24 @@ public class MoviesEntity {
     public void setRelease_date(String release_date) {
         this.release_date = release_date;
     }
+
+    @Override
+    public String toString() {
+        return "MoviesEntity{" +
+                "vote_count='" + vote_count + '\'' +
+                ", id='" + id + '\'' +
+                ", video='" + video + '\'' +
+                ", vote_average='" + vote_average + '\'' +
+                ", title='" + title + '\'' +
+                ", popularity='" + popularity + '\'' +
+                ", poster_path='" + poster_path + '\'' +
+                ", original_language='" + original_language + '\'' +
+                ", original_title='" + original_title + '\'' +
+                ", genre_ids=" + genre_ids +
+                ", backdrop_path='" + backdrop_path + '\'' +
+                ", adult='" + adult + '\'' +
+                ", overview='" + overview + '\'' +
+                ", release_date='" + release_date + '\'' +
+                '}';
+    }
 }
