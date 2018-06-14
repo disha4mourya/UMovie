@@ -37,6 +37,9 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
 
         presenter = createPresenter();
         adapter = new MoviesAdapter(this);
+        int spacingInPixels = 0;
+        binding.rvMovies.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
+
         mLayoutManager = new GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false);
         binding.rvMovies.setLayoutManager(mLayoutManager);
         binding.rvMovies.setHasFixedSize(true);

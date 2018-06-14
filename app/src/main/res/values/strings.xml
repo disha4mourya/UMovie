@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PopularMovies</string>
+    <string name="app_name">Movies</string>
     <string name="error">Error</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="movie_list_is_empty">List is empty.</string>

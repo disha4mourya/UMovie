@@ -55,7 +55,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
                 .placeholder(R.drawable.ic_error_outline_grey_600_48dp)// Place holder image from drawable folder
                 .error(R.drawable.ic_error_outline_grey_600_48dp)
                 .into(holder.binding.ivMovieBanner);
-        holder.binding.tvMovieName.setText(moviesEntity.getTitle());
     }
 
 
