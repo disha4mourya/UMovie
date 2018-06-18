@@ -8,6 +8,7 @@
         tools:context=".songs_list.view.SongsActivity">
 
         <ProgressBar
+            android:theme="@style/AppTheme.GaryAccent"
             android:id="@+id/pbLoading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +51,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvMovies"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"/>
 
     </RelativeLayout>
 </layout>

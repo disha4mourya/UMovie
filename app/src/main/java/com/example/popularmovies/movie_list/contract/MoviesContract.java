@@ -24,9 +24,7 @@ public interface MoviesContract {
 
     interface Presenter {
 
-        void getMovies();
-
-        void setView(MoviesContract.View view);
+        void getMovies(String type);
 
         void onMovieClick(int position);
 
@@ -42,7 +40,7 @@ public interface MoviesContract {
 
     interface Model {
 
-        void fetchMovies(LoadCallback<Response> loadCallback);
+        void fetchMovies(String type,LoadCallback<Response> loadCallback);
 
         void setMoviesEntityList(List<MoviesEntity> moviesEntityList);
 

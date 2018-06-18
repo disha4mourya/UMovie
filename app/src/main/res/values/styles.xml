@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/menu_color</item>
+        <item name="android:state_selected">@color/colorDivider</item>
+        <!-- <item name="android:itemBackground">@color/menu_color</item>-->
     </style>
 
+    <style name="AppTheme.GaryAccent">
+        <item name="colorAccent">@color/colorDivider</item>
+    </style>
 </resources>

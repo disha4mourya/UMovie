@@ -2,9 +2,10 @@ package com.example.popularmovies.movie_list.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MoviesEntity {
+public class MoviesEntity implements Serializable{
 
     public String vote_count;
     @SerializedName("id")

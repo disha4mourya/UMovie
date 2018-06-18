@@ -3,10 +3,11 @@ package com.example.popularmovies.movie_list.view;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.example.popularmovies.R;
 import com.example.popularmovies.databinding.MovieRowBinding;
@@ -15,6 +16,7 @@ import com.example.popularmovies.utils.ItemClickListner;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import static com.example.popularmovies.utils.Constants.IMAGE_APPEND;
 
@@ -23,6 +25,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     private Context context;
     private ItemClickListner onClickListener;
     private List<MoviesEntity> moviesEntityList;
+    private int lastPosition = -1;
 
     MoviesAdapter(Context context) {
         this.context = context;
@@ -37,7 +40,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         this.onClickListener = onClickListener;
     }
 
-
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MovieRowBinding binding = DataBindingUtil.inflate(
@@ -50,13 +52,27 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public void onBindViewHolder(MovieViewHolder holder, int position) {
         MoviesEntity moviesEntity = moviesEntityList.get(position);
 
-        Log.d("InAdapter","dataSet"+moviesEntity.getTitle());
+        setAnimation(holder.itemView, position);
+
         Picasso.with(context).load(IMAGE_APPEND + moviesEntity.getPoster_path())
                 .placeholder(R.drawable.ic_error_outline_grey_600_48dp)// Place holder image from drawable folder
                 .error(R.drawable.ic_error_outline_grey_600_48dp)
                 .into(holder.binding.ivMovieBanner);
+
+        holder.binding.tvMovieName.setSelected(true);
+        holder.binding.tvMovieName.setText(moviesEntity.getTitle());
+        Locale loc = new Locale(moviesEntity.getOriginal_language());
+        holder.binding.tvMovieLang.setText(loc.getDisplayLanguage(loc));
+        holder.binding.tvMovieRate.setText(moviesEntity.getVote_average());
     }
 
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
 
     @Override
     public long getItemId(int position) {
@@ -67,27 +83,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public int getItemCount() {
         return moviesEntityList.size();
     }
-
-
-  /*  public View getView(int position, View view, ViewGroup viewGroup) {
-        View vi = view;
-        if (view == null)
-            vi = inflater.inflate(R.layout.movie_row, null);
-        ImageView ivMoviePoster = vi.findViewById(R.id.ivMovieBanner);
-        TextView tvMovieName = vi.findViewById(R.id.tvMovieName);
-
-        MoviesEntity moviesEntity = presenter.getAdapterEntity(position);
-
-        Picasso.with(context).load(IMAGE_APPEND + moviesEntity.getPoster_path())
-                .placeholder(R.drawable.ic_error_outline_grey_600_48dp)// Place holder image from drawable folder
-                .error(R.drawable.ic_error_outline_grey_600_48dp)
-                .centerCrop()
-                .into(ivMoviePoster);
-        tvMovieName.setText(moviesEntity.getTitle());
-
-
-        return null;
-    }*/
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -103,7 +98,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         @Override
         public void onClick(View view) {
             if (onClickListener != null)
-                onClickListener.onClick(view,getAdapterPosition());
+                onClickListener.onClick(view, getAdapterPosition());
         }
     }
 }

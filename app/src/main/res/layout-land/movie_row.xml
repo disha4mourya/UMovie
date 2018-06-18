@@ -13,15 +13,13 @@
             android:layout_marginRight="10dp"
             android:id="@+id/ivMovieBanner"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="180dp"
             android:layout_marginTop="20dp"
             android:scaleType="fitXY" />
 
         <TextView
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="0dp"
             android:layout_below="@+id/ivMovieBanner"
             android:id="@+id/tvMovieName"
@@ -32,11 +30,10 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:layout_below="@+id/tvMovieName"
-            android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="0dp"
+            android:layout_below="@+id/tvMovieName"
             android:id="@+id/tvMovieLang"
             android:text="Language"
             android:textSize="10sp"
@@ -45,13 +42,12 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:layout_below="@+id/tvMovieName"
-            android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/tvMovieLang"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="0dp"
+            android:layout_below="@+id/tvMovieName"
             android:id="@+id/tvMovieRate"
             android:textSize="10sp"
             android:textColor="@color/colorDivider"
@@ -62,19 +58,19 @@
 
 
 
-       <!-- <TextView
+        <!-- <TextView
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="120dp"
-            android:background="@drawable/round_corners"
-            android:gravity="center"
-            android:padding="2dp"
-            android:text="2.3"
-            android:textColor="@color/colorIcon"
-            android:textSize="10sp" />-->
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentEnd="true"
+             android:layout_alignParentRight="true"
+             android:layout_marginTop="120dp"
+             android:background="@drawable/round_corners"
+             android:gravity="center"
+             android:padding="2dp"
+             android:text="2.3"
+             android:textColor="@color/colorIcon"
+             android:textSize="10sp" />-->
     </RelativeLayout>
 
 </layout>

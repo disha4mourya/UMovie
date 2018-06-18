@@ -28,12 +28,12 @@ public class MoviesPresenter implements MoviesContract.Presenter, MoviesContract
     }
 
     @Override
-    public void getMovies() {
+    public void getMovies(String type) {
 
         view.showProgress(true);
         view.showMovieList(false);
         view.showError(false, false, "");
-        model.fetchMovies(new LoadCallback<Response>() {
+        model.fetchMovies(type,new LoadCallback<Response>() {
             @Override
             public void onSuccess(Response response) {
                 Log.d("onSuccess", "Reached");
@@ -55,9 +55,7 @@ public class MoviesPresenter implements MoviesContract.Presenter, MoviesContract
 
     private void handleResponseCodes(Response<MovieResult> response) {
         switch (response.code()) {
-            case ResponseCodes.BAD_REQUEST:
-                hideListAndProgressAndSetErrorMessage(PopularMoviesApplication.getContext().getString(R.string.bad_request));
-                break;
+
             case ResponseCodes.NOT_FOUND:
                 hideListAndProgressAndSetErrorMessage(PopularMoviesApplication.getContext().getString(R.string.not_found));
                 break;
@@ -65,12 +63,10 @@ public class MoviesPresenter implements MoviesContract.Presenter, MoviesContract
                 hideListAndProgressAndSetErrorMessage(PopularMoviesApplication.getContext().getString(R.string.not_authorized));
                 break;
             case ResponseCodes.SUCCESS:
-                Log.d("onSuccessSu", "ReachedSuccess");
 
                 view.showMovieList(true);
                 view.showProgress(false);
                 view.showError(false, false, "");
-                // if (response.body()!=null&&response.body().getResult()!=null)
                 model.setMoviesEntityList(response.body().getResult());
                 view.setDataOnAdapter(response.body().getResult());
                 view.notifyMovieData();
@@ -80,11 +76,6 @@ public class MoviesPresenter implements MoviesContract.Presenter, MoviesContract
                 hideListAndProgressAndSetErrorMessage(PopularMoviesApplication.getContext().getString(R.string.something_went_wrong));
                 break;
         }
-    }
-
-    @Override
-    public void setView(MoviesContract.View view) {
-
     }
 
     @Override
