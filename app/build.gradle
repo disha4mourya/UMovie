@@ -29,6 +29,7 @@ dependencies {
     implementation deps.support.appCompat
     implementation deps.support.annotations
     implementation deps.support.recyclerView
+    implementation 'com.android.support:cardview-v7:26.0.2'
 
     implementation deps.square.retrofit
     implementation deps.square.gsonConverter

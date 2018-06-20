@@ -4,7 +4,7 @@ import static com.example.popularmovies.BuildConfig.MOVIE_API_KEY;
 
 public class Constants {
     public static String IMAGE_APPEND = "http://image.tmdb.org/t/p/w185/";
-    public static String BIG_IMAGE_APPEND = "http://image.tmdb.org/t/p/w500/";
+    public static String BIG_IMAGE_APPEND = "http://image.tmdb.org/t/p/w780/";
     public static String VOTE_COUNT = "vote_count";
     public static String ID = "id";
     public static String VIDEO = "video";
