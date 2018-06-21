@@ -1,5 +1,6 @@
 package com.example.popularmovies.movie_list.presenter;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.popularmovies.R;
@@ -8,6 +9,7 @@ import com.example.popularmovies.movie_list.contract.MoviesContract;
 import com.example.popularmovies.movie_list.entity.MovieResult;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
 import com.example.popularmovies.movie_list.model.MoviesModel;
+import com.example.popularmovies.network.ServiceManager;
 import com.example.popularmovies.utils.ResponseCodes;
 import com.example.popularmovies.utils.mvp.LoadCallback;
 
@@ -17,34 +19,43 @@ public class MoviesPresenter implements MoviesContract.Presenter, MoviesContract
 
     private MoviesContract.View view = null;
     private MoviesContract.Model model;
+    private Context context;
 
     private MoviesPresenter(MoviesContract.View view, MoviesContract.Model model) {
         this.view = view;
         this.model = model;
     }
 
-    public MoviesPresenter(MoviesContract.View view) {
+    public MoviesPresenter(Context context, MoviesContract.View view) {
         this(view, new MoviesModel());
+        this.context = context;
     }
 
     @Override
     public void getMovies(String type) {
 
-        view.showProgress(true);
-        view.showMovieList(false);
-        view.showError(false, false, "");
-        model.fetchMovies(type,new LoadCallback<Response>() {
-            @Override
-            public void onSuccess(Response response) {
-                Log.d("onSuccess", "Reached");
-                handleResponseCodes(response);
-            }
+        ServiceManager serviceManager = new ServiceManager(context);
+        if (serviceManager.isNetworkAvailable()) {
+            view.showProgress(true);
+            view.showMovieList(false);
+            view.showError(false, false, "");
+            model.fetchMovies(type, new LoadCallback<Response>() {
+                @Override
+                public void onSuccess(Response response) {
+                    Log.d("onSuccess", "Reached");
+                    handleResponseCodes(response);
+                }
 
-            @Override
-            public void onFailure(Throwable throwable) {
+                @Override
+                public void onFailure(Throwable throwable) {
 
-            }
-        });
+                }
+            });
+        } else {
+            view.showProgress(false);
+            view.showMovieList(false);
+            view.showError(true, true, "No Internet Connection.");
+        }
     }
 
     private void hideListAndProgressAndSetErrorMessage(String msg) {

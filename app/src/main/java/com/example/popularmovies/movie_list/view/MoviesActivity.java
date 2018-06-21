@@ -1,7 +1,9 @@
 package com.example.popularmovies.movie_list.view;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.example.popularmovies.utils.ItemClickListner;
 
 import java.util.List;
 
+import static com.example.popularmovies.utils.Constants.INTERNET_LOST;
 import static com.example.popularmovies.utils.Constants.MOVIES;
 import static com.example.popularmovies.utils.Constants.POPULAR;
 import static com.example.popularmovies.utils.Constants.TOP_RATED;
@@ -46,7 +49,16 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         adapter = new MoviesAdapter(this);
         int spacingInPixels = 0;
         binding.rvMovies.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
+
+        registerReceiver(broadcastReceiver, new IntentFilter(INTERNET_LOST));
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            createPresenter(POPULAR);
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -145,8 +157,8 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         adapter.notifyDataSetChanged();
     }
 
-    private MoviesPresenter createPresenter(String type) {
-        presenter = new MoviesPresenter(this);
+    public MoviesPresenter createPresenter(String type) {
+        presenter = new MoviesPresenter(context, this);
         presenter.getMovies(type);
         return presenter;
     }
@@ -174,5 +186,11 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     @Override
     public void onClick(View view, int position) {
         presenter.onMovieClick(position);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
 }

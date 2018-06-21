@@ -18,6 +18,7 @@ public class Constants {
     public static String ADULT = "adult";
     public static String OVERVIEW = "overview";
     public static String RELEASE_DATE = "release_date";
+    public static String INTERNET_LOST = "INTERNET_LOST";
     public static String POPULAR = "Popular";
     public static String MOVIES = "Movies";
     public static String TOP_RATED = "Top Rated";
