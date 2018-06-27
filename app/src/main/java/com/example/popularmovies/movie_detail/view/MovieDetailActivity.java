@@ -48,18 +48,13 @@ public class MovieDetailActivity extends AppCompatActivity {
     public void setDataOnViews(MoviesEntity moviesEntity) {
 
         Picasso.with(context).load(BIG_IMAGE_APPEND + moviesEntity.getBackdrop_path())
-                .error(R.drawable.ic_error_outline_grey_600_48dp)
-                .placeholder(R.drawable.ic_error_outline_grey_600_48dp)
+                .error(R.drawable.error)
+                .placeholder(R.drawable.rotate)
                 .into(binding.ivMovieBackDrop);
-
-       /* Picasso.with(context).load(BIG_IMAGE_APPEND + moviesEntity.getBackdrop_path())
-                .error(R.drawable.ic_error_outline_grey_600_48dp)
-                .placeholder(R.drawable.ic_error_outline_grey_600_48dp)
-                .into(binding.ivBackImg);*/
-
+        
         Picasso.with(context).load(IMAGE_APPEND + moviesEntity.getPoster_path())
-                .error(R.drawable.ic_error_outline_grey_600_48dp)
-                .placeholder(R.drawable.ic_error_outline_grey_600_48dp)
+                .error(R.drawable.error)
+                .placeholder(R.drawable.rotate)
                 .into(binding.ivMovieBanner);
 
         binding.tvMovieRate.setText(moviesEntity.getVote_average());

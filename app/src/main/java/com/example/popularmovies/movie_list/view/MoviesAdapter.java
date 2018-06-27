@@ -54,11 +54,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
         setAnimation(holder.itemView, position);
 
-        Picasso.with(context).load(IMAGE_APPEND + moviesEntity.getPoster_path())
-                .placeholder(R.drawable.ic_error_outline_grey_600_48dp)// Place holder image from drawable folder
-                .error(R.drawable.ic_error_outline_grey_600_48dp)
-                .into(holder.binding.ivMovieBanner);
-
+        if (moviesEntity.getPoster_path() != null && !moviesEntity.getPoster_path().equals("")) {
+            Picasso.with(context).load(IMAGE_APPEND + moviesEntity.getPoster_path())
+                    .placeholder(R.drawable.rotate)// Place holder image from drawable folder
+                    .error(R.drawable.error)
+                    .into(holder.binding.ivMovieBanner);
+        } else {
+            Picasso.with(context).load(R.drawable.image_not_available)
+                    .into(holder.binding.ivMovieBanner);
+        }
         holder.binding.tvMovieName.setSelected(true);
         holder.binding.tvMovieName.setText(moviesEntity.getTitle());
         Locale loc = new Locale(moviesEntity.getOriginal_language());
