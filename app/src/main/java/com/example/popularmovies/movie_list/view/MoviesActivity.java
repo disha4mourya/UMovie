@@ -1,9 +1,7 @@
 package com.example.popularmovies.movie_list.view;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -23,7 +21,6 @@ import com.example.popularmovies.utils.ItemClickListner;
 
 import java.util.List;
 
-import static com.example.popularmovies.utils.Constants.INTERNET_LOST;
 import static com.example.popularmovies.utils.Constants.MOVIES;
 import static com.example.popularmovies.utils.Constants.POPULAR;
 import static com.example.popularmovies.utils.Constants.TOP_RATED;
@@ -34,9 +31,8 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     private Context context;
     private MoviesPresenter presenter;
     private MoviesAdapter adapter;
-    GridLayoutManager mLayoutManager;
-    String selectedType;
-    MenuItem item_popular, item_top_rated;
+    private String selectedType;
+    private MenuItem item_popular, item_top_rated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,24 +43,20 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         setNameOnToolbar();
         presenter = createPresenter(POPULAR);
         adapter = new MoviesAdapter(this);
-        int spacingInPixels = 0;
-        binding.rvMovies.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
-
-        registerReceiver(broadcastReceiver, new IntentFilter(INTERNET_LOST));
+        binding.tvRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createPresenter(selectedType);
+            }
+        });
     }
-
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            createPresenter(POPULAR);
-        }
-    };
 
     @Override
     protected void onResume() {
         super.onResume();
 
         int orientation = this.getResources().getConfiguration().orientation;
+        GridLayoutManager mLayoutManager;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             mLayoutManager = new GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false);
         } else {
@@ -121,26 +113,10 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     @Override
     public void showMovieDetails(MoviesEntity moviesEntity) {
 
-       /* Intent intent = new Intent(context, MovieDetailActivity.class);
-        intent.putExtra(Constants.VOTE_COUNT, moviesEntity.getVote_count());
-        intent.putExtra(Constants.ID, moviesEntity.getId());
-        intent.putExtra(Constants.VIDEO, moviesEntity.getVideo());
-        intent.putExtra(Constants.VOTE_AVERAGE, moviesEntity.getVote_average());
-        intent.putExtra(Constants.TITLE, moviesEntity.getTitle());
-        intent.putExtra(Constants.POPULARITY, moviesEntity.getPopularity());
-        intent.putExtra(Constants.POSTER_PATH, moviesEntity.getPoster_path());
-        intent.putExtra(Constants.ORIGINAL_LANGUAGE, moviesEntity.getOriginal_language());
-        intent.putExtra(Constants.BACKDROP_PATH, moviesEntity.getBackdrop_path());
-        intent.putExtra(Constants.ADULT, moviesEntity.getAdult());
-        intent.putExtra(Constants.OVERVIEW, moviesEntity.getOverview());
-        intent.putExtra(Constants.RELEASE_DATE, moviesEntity.getRelease_date());
-
-        startActivity(intent);*/
-
         Intent yourIntent = new Intent(this, MovieDetailActivity.class);
         Bundle b = new Bundle();
         b.putSerializable("movieDetails", moviesEntity);
-        yourIntent.putExtras(b); //pass bundle to your intent
+        yourIntent.putExtras(b);
         startActivity(yourIntent);
     }
 
@@ -157,7 +133,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         adapter.notifyDataSetChanged();
     }
 
-    public MoviesPresenter createPresenter(String type) {
+    private MoviesPresenter createPresenter(String type) {
         presenter = new MoviesPresenter(context, this);
         presenter.getMovies(type);
         return presenter;
@@ -188,9 +164,4 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         presenter.onMovieClick(position);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(broadcastReceiver);
-    }
 }

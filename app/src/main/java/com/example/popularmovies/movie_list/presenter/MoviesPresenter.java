@@ -15,7 +15,7 @@ import com.example.popularmovies.utils.mvp.LoadCallback;
 
 import retrofit2.Response;
 
-public class MoviesPresenter implements MoviesContract.Presenter, MoviesContract.AdapterPresenter {
+public class MoviesPresenter implements MoviesContract.Presenter {
 
     private MoviesContract.View view = null;
     private MoviesContract.Model model;
@@ -78,6 +78,7 @@ public class MoviesPresenter implements MoviesContract.Presenter, MoviesContract
                 view.showMovieList(true);
                 view.showProgress(false);
                 view.showError(false, false, "");
+
                 model.setMoviesEntityList(response.body().getResult());
                 view.setDataOnAdapter(response.body().getResult());
                 view.notifyMovieData();
@@ -95,15 +96,5 @@ public class MoviesPresenter implements MoviesContract.Presenter, MoviesContract
         if (songsEntity != null) {
             view.showMovieDetails(songsEntity);
         }
-    }
-
-    @Override
-    public int getAdapterCount() {
-        return model.getMoviesEntityList().size();
-    }
-
-    @Override
-    public MoviesEntity getAdapterEntity(int position) {
-        return model.getMoviesEntityList().get(position);
     }
 }

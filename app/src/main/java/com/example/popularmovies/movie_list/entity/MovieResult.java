@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MovieResult {
 
-    List<MoviesEntity> results;
+    private List<MoviesEntity> results;
 
     public List<MoviesEntity> getResult() {
         return results;

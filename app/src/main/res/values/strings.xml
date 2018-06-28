@@ -3,7 +3,6 @@
     <string name="error">Error</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="movie_list_is_empty">List is empty.</string>
-    <string name="bad_request">Bad Request</string>
     <string name="not_found">Not Found</string>
     <string name="not_authorized">Unauthorized</string>
     <string name="movie_banner">Movie Banner</string>
@@ -17,4 +16,5 @@
     <string name="back">Back</string>
     <string name="top_rated">Top Rated</string>
     <string name="popular">Popular</string>
+    <string name="tap_to_retry">Tap to Retry</string>
 </resources>

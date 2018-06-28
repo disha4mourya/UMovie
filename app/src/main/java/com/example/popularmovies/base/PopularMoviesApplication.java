@@ -12,7 +12,6 @@ public class PopularMoviesApplication extends Application {
         super.onCreate();
         context=this;
     }
-
     public static Context getContext(){
         return context;
     }

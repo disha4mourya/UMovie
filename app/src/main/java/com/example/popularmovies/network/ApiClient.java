@@ -18,9 +18,7 @@ public class ApiClient {
 
     private static Retrofit getMovies() {
         if (retrofit == null) {
-
             OkHttpClient okHttpClient = new OkHttpClient();
-
             retrofit = new Retrofit.Builder()
                     .baseUrl(API_URL)
                     .addConverterFactory(GsonConverterFactory.create())

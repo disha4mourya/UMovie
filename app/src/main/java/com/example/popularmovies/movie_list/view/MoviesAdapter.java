@@ -13,6 +13,7 @@ import com.example.popularmovies.R;
 import com.example.popularmovies.databinding.MovieRowBinding;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
 import com.example.popularmovies.utils.ItemClickListner;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -49,16 +50,24 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
+    public void onBindViewHolder(final MovieViewHolder holder, int position) {
         MoviesEntity moviesEntity = moviesEntityList.get(position);
 
         setAnimation(holder.itemView, position);
 
         if (moviesEntity.getPoster_path() != null && !moviesEntity.getPoster_path().equals("")) {
             Picasso.with(context).load(IMAGE_APPEND + moviesEntity.getPoster_path())
-                    .placeholder(R.drawable.rotate)// Place holder image from drawable folder
                     .error(R.drawable.error)
-                    .into(holder.binding.ivMovieBanner);
+                    .into(holder.binding.ivMovieBanner, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.binding.pbLoading.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+                        }
+                    });
         } else {
             Picasso.with(context).load(R.drawable.image_not_available)
                     .into(holder.binding.ivMovieBanner);
@@ -92,7 +101,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
         private MovieRowBinding binding;
 
-        public MovieViewHolder(MovieRowBinding binding) {
+        private MovieViewHolder(MovieRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             itemView.setOnClickListener(this);

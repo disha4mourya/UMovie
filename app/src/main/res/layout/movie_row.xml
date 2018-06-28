@@ -6,6 +6,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            android:layout_marginTop="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.GaryAccent" />
 
         <ImageView
             android:foreground="@drawable/gradient_shade"
@@ -33,12 +39,12 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tvMovieLang"
             android:layout_below="@+id/tvMovieName"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="0dp"
-            android:id="@+id/tvMovieLang"
             android:text="@string/language"
             android:textSize="10sp"
             android:textColor="@color/colorDivider"
@@ -47,8 +53,9 @@
 
         <TextView
             android:layout_below="@+id/tvMovieName"
+            android:gravity="end"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/tvMovieLang"
+            android:layout_toRightOf="@+id/tvMovieLang"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"
@@ -58,7 +65,7 @@
             android:textColor="@color/colorDivider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/tvMovieLang"
+            android:layout_toEndOf="@+id/tvMovieLang"
             android:layout_alignParentEnd="true" />
 
 

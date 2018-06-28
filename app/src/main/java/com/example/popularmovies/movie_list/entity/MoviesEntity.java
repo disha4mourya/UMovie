@@ -7,21 +7,21 @@ import java.util.List;
 
 public class MoviesEntity implements Serializable{
 
-    public String vote_count;
+    private String vote_count;
     @SerializedName("id")
-    public String id;
-    public String video;
-    public String vote_average;
-    public String title;
-    public String popularity;
-    public String poster_path;
-    public String original_language;
-    public String original_title;
-    public List<String> genre_ids;
-    public String backdrop_path;
-    public String adult;
-    public String overview;
-    public String release_date;
+    private String id;
+    private String video;
+    private String vote_average;
+    private String title;
+    private String popularity;
+    private String poster_path;
+    private String original_language;
+    private String original_title;
+    private List<String> genre_ids;
+    private String backdrop_path;
+    private String adult;
+    private String overview;
+    private String release_date;
 
     public String getVote_count() {
         return vote_count;

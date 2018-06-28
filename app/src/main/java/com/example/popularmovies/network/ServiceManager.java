@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 
 public class ServiceManager {
 
-    Context context;
+    private Context context;
 
     public ServiceManager(Context base) {
         context = base;
@@ -14,7 +14,10 @@ public class ServiceManager {
 
     public boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        NetworkInfo networkInfo = null;
+        if (cm != null) {
+            networkInfo = cm.getActiveNetworkInfo();
+        }
         return networkInfo != null && networkInfo.isConnected();
     }
 }

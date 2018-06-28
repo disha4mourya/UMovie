@@ -20,11 +20,18 @@
                 android:layout_height="match_parent">
 
 
+                <ProgressBar
+                    android:id="@+id/pbLoading"
+                    android:layout_marginTop="120dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/AppTheme.GaryAccent" />
+
                 <ImageView
                     android:id="@+id/ivMovieBackDrop"
-                    android:contentDescription="@string/movie_background"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
+                    android:contentDescription="@string/movie_background"
                     android:foreground="@drawable/gradient_shade_two"
                     android:scaleType="fitXY" />
 
@@ -45,10 +52,10 @@
 
                         <ImageView
                             android:id="@+id/ivMovieBanner"
-                            android:contentDescription="@string/movie_banner"
                             android:layout_width="100dp"
                             android:layout_height="150dp"
                             android:layout_margin="0dp"
+                            android:contentDescription="@string/movie_banner"
                             android:scaleType="fitXY" />
                     </android.support.v7.widget.CardView>
 
@@ -77,9 +84,9 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:contentDescription="@string/releasing_on"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
+                                android:contentDescription="@string/releasing_on"
                                 android:src="@drawable/film" />
 
 
@@ -117,9 +124,9 @@
                     android:visibility="gone">
 
                     <ImageView
-                        android:contentDescription="@string/review"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:contentDescription="@string/review"
                         android:src="@drawable/review" />
 
 
@@ -135,13 +142,13 @@
 
                 <ImageView
                     android:id="@+id/ivUsers"
-                    android:contentDescription="@string/users"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_below="@+id/llBasicDetails"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
+                    android:contentDescription="@string/users"
                     android:src="@drawable/customer" />
 
                 <TextView
@@ -170,6 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:layout_marginTop="0dp"
                         android:numStars="10"
                         android:stepSize="0.1"
@@ -205,7 +213,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/tvDummyOverview"
-                    android:layout_gravity="center_vertical|right"
+                    android:layout_gravity="center_vertical|end"
                     android:layout_margin="0dp"
                     android:textColor="@color/colorIcon" />
 
@@ -214,14 +222,14 @@
 
         <ImageView
             android:id="@+id/ivBack"
-            android:clickable="true"
-            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:src="@drawable/ic_arrow_back_white_24dp"
+            android:layout_margin="10dp"
+            android:clickable="true"
             android:contentDescription="@string/back"
-            android:focusable="true" />
+            android:focusable="true"
+            android:src="@drawable/ic_arrow_back_white_24dp" />
     </RelativeLayout>
 </layout>

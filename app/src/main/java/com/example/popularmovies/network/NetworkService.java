@@ -7,7 +7,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Url;
 
 public interface NetworkService {
-
     @GET()
     Call<MovieResult> getMoviesList(@Url String url);
 }

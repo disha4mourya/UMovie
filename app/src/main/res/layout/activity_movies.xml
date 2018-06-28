@@ -8,11 +8,11 @@
         tools:context=".songs_list.view.SongsActivity">
 
         <ProgressBar
-            android:theme="@style/AppTheme.GaryAccent"
             android:id="@+id/pbLoading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:theme="@style/AppTheme.GaryAccent" />
 
         <RelativeLayout
             android:id="@+id/rlError"
@@ -26,8 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:contentDescription="@string/error"
-                 />
+                android:contentDescription="@string/error" />
 
             <TextView
                 android:id="@+id/tvError"
@@ -46,13 +45,26 @@
                 android:text="@string/movie_list_is_empty"
                 android:visibility="gone" />
 
+            <TextView
+                android:id="@+id/tvRetry"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvError"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_refresh_white_24dp"
+                android:drawableStart="@drawable/ic_refresh_white_24dp"
+                android:text="@string/tap_to_retry" />
+
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvMovies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp" />
 
     </RelativeLayout>
 </layout>

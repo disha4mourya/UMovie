@@ -12,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="@xml/my_backup_rules">
         <activity android:name=".movie_list.view.MoviesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +24,6 @@
         <activity android:name=".movie_detail.view.MovieDetailActivity"
             android:theme="@style/AppThemeNoActionBar"/>
 
-        <receiver android:name=".network.NetworkChangeReceiver" >
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

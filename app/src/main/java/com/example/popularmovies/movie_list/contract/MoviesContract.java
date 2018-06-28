@@ -19,6 +19,7 @@ public interface MoviesContract {
         void showMovieDetails(MoviesEntity moviesEntity);
 
         void setDataOnAdapter(List<MoviesEntity> moviesEntities);
+
         void notifyMovieData();
     }
 
@@ -27,15 +28,6 @@ public interface MoviesContract {
         void getMovies(String type);
 
         void onMovieClick(int position);
-
-    }
-
-    interface AdapterPresenter {
-
-        int getAdapterCount();
-
-        MoviesEntity getAdapterEntity(int position);
-
     }
 
     interface Model {
@@ -45,9 +37,5 @@ public interface MoviesContract {
         void setMoviesEntityList(List<MoviesEntity> moviesEntityList);
 
         List<MoviesEntity> getMoviesEntityList();
-
-
     }
-
-
 }
