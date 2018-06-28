@@ -22,6 +22,7 @@
 
                 <ImageView
                     android:id="@+id/ivMovieBackDrop"
+                    android:contentDescription="@string/movie_background"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:foreground="@drawable/gradient_shade_two"
@@ -44,6 +45,7 @@
 
                         <ImageView
                             android:id="@+id/ivMovieBanner"
+                            android:contentDescription="@string/movie_banner"
                             android:layout_width="100dp"
                             android:layout_height="150dp"
                             android:layout_margin="0dp"
@@ -75,6 +77,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:contentDescription="@string/releasing_on"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/film" />
@@ -87,7 +90,6 @@
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginStart="10dp"
-                                android:text="444"
                                 android:textColor="@color/colorDivider"
                                 android:visibility="visible" />
                         </LinearLayout>
@@ -115,6 +117,7 @@
                     android:visibility="gone">
 
                     <ImageView
+                        android:contentDescription="@string/review"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/review" />
@@ -126,13 +129,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginStart="10dp"
-                        android:text="444"
                         android:textColor="@color/colorDivider"
                         android:visibility="visible" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/ivUsers"
+                    android:contentDescription="@string/users"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_below="@+id/llBasicDetails"
@@ -148,7 +151,6 @@
                     android:layout_below="@+id/ivUsers"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:text="1111"
                     android:textColor="@color/colorDivider"
                     android:textSize="12sp"
                     android:visibility="visible" />
@@ -194,7 +196,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="Overview:"
+                    android:text="@string/overview"
                     android:textAllCaps="true"
                     android:textColor="@color/colorIcon" />
 
@@ -212,12 +214,14 @@
 
         <ImageView
             android:id="@+id/ivBack"
+            android:clickable="true"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:src="@drawable/ic_arrow_back_white_24dp"
-            android:contentDescription="Back" />
+            android:contentDescription="@string/back"
+            android:focusable="true" />
     </RelativeLayout>
 </layout>

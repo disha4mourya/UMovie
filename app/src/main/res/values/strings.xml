@@ -6,4 +6,15 @@
     <string name="bad_request">Bad Request</string>
     <string name="not_found">Not Found</string>
     <string name="not_authorized">Unauthorized</string>
+    <string name="movie_banner">Movie Banner</string>
+    <string name="movie_background">Movie Background</string>
+    <string name="releasing_on">Releasing On</string>
+    <string name="review">Review</string>
+    <string name="users">Users</string>
+    <string name="movie_name">Movie Name</string>
+    <string name="language">Language</string>
+    <string name="overview">Overview:</string>
+    <string name="back">Back</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="popular">Popular</string>
 </resources>

@@ -6,12 +6,12 @@
         android:id="@+id/menu_top_rated"
         android:orderInCategory="100"
         app:showAsAction="never"
-        android:title="Top Rated" />
+        android:title="@string/top_rated" />
 
     <item
         android:id="@+id/menu_popular"
         android:orderInCategory="200"
-        android:title="Popular"
+        android:title="@string/popular"
         app:showAsAction="never" />
 
 </menu>
