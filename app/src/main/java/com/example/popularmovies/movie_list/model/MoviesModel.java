@@ -1,7 +1,5 @@
 package com.example.popularmovies.movie_list.model;
 
-import android.util.Log;
-
 import com.example.popularmovies.movie_list.contract.MoviesContract;
 import com.example.popularmovies.movie_list.entity.MovieResult;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
@@ -42,9 +40,6 @@ public class MoviesModel implements MoviesContract.Model {
         call.enqueue(new Callback<MovieResult>() {
             @Override
             public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
-                Log.d("Response", "" + response);
-                Log.d("Response", "" + response.body().getResult().toString());
-                Log.d("Response", "" + response.body().getResult().size());
                 loadCallback.onSuccess(response);
             }
 

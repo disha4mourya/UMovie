@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import static com.example.popularmovies.utils.Constants.BIG_IMAGE_APPEND;
 import static com.example.popularmovies.utils.Constants.IMAGE_APPEND;
+import static com.example.popularmovies.utils.Constants.MOVIE_DETAILS;
 
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
         assert bundle != null;
-        MoviesEntity moviesEntity = (MoviesEntity) bundle.getSerializable("movieDetails");
+        MoviesEntity moviesEntity = (MoviesEntity) bundle.getSerializable(MOVIE_DETAILS);
         if (moviesEntity != null)
             setDataOnViews(moviesEntity);
 

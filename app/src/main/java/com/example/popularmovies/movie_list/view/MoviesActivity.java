@@ -22,6 +22,7 @@ import com.example.popularmovies.utils.ItemClickListner;
 import java.util.List;
 
 import static com.example.popularmovies.utils.Constants.MOVIES;
+import static com.example.popularmovies.utils.Constants.MOVIE_DETAILS;
 import static com.example.popularmovies.utils.Constants.POPULAR;
 import static com.example.popularmovies.utils.Constants.TOP_RATED;
 
@@ -115,7 +116,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
 
         Intent yourIntent = new Intent(this, MovieDetailActivity.class);
         Bundle b = new Bundle();
-        b.putSerializable("movieDetails", moviesEntity);
+        b.putSerializable(MOVIE_DETAILS, moviesEntity);
         yourIntent.putExtras(b);
         startActivity(yourIntent);
     }

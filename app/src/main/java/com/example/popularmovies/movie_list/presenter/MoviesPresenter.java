@@ -1,7 +1,6 @@
 package com.example.popularmovies.movie_list.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.popularmovies.R;
 import com.example.popularmovies.base.PopularMoviesApplication;
@@ -42,7 +41,6 @@ public class MoviesPresenter implements MoviesContract.Presenter {
             model.fetchMovies(type, new LoadCallback<Response>() {
                 @Override
                 public void onSuccess(Response response) {
-                    Log.d("onSuccess", "Reached");
                     handleResponseCodes(response);
                 }
 
@@ -54,7 +52,7 @@ public class MoviesPresenter implements MoviesContract.Presenter {
         } else {
             view.showProgress(false);
             view.showMovieList(false);
-            view.showError(true, true, "No Internet Connection.");
+            view.showError(true, true, context.getString(R.string.no_internet_connection));
         }
     }
 
