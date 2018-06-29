@@ -13,7 +13,7 @@ import android.view.View;
 
 import com.example.popularmovies.R;
 import com.example.popularmovies.databinding.ActivityMoviesBinding;
-import com.example.popularmovies.movie_detail.view.MovieDetailActivity;
+import com.example.popularmovies.movie_detail.view.NewMovieDetailActivity;
 import com.example.popularmovies.movie_list.contract.MoviesContract;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
 import com.example.popularmovies.movie_list.presenter.MoviesPresenter;
@@ -114,7 +114,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     @Override
     public void showMovieDetails(MoviesEntity moviesEntity) {
 
-        Intent yourIntent = new Intent(this, MovieDetailActivity.class);
+        Intent yourIntent = new Intent(this, NewMovieDetailActivity.class);
         Bundle b = new Bundle();
         b.putSerializable(MOVIE_DETAILS, moviesEntity);
         yourIntent.putExtras(b);

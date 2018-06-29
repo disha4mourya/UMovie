@@ -19,7 +19,8 @@ buildscript {
                     'appCompat':"com.android.support:appcompat-v7:${versions.buildTools}",
                     'annotations':"com.android.support:support-annotations:${versions.buildTools}",
                     'recyclerView':"com.android.support:recyclerview-v7:${versions.buildTools}",
-                    'cardview':"com.android.support:cardview-v7:${versions.buildTools}"
+                    'cardview':"com.android.support:cardview-v7:${versions.buildTools}",
+                    'design':"com.android.support:design:${versions.buildTools}",
             ],
             square:[
                     'retrofit':"com.squareup.retrofit2:retrofit:${versions.retrofit}",

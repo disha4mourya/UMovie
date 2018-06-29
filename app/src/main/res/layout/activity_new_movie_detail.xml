@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:fitsSystemWindows="true">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:collapsedTitleTextAppearance="@style/AppTheme.Toolbar.Title"
+                app:contentScrim="@color/colorPrimary"
+                app:expandedTitleMarginEnd="0dp"
+                app:expandedTitleMarginStart="0dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <ImageView
+                    android:id="@+id/ivMovieBackDrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:contentDescription="@string/movie_background"
+                    android:foreground="@drawable/gradient_shade_two"
+                    android:scaleType="fitXY" />
+
+
+                <LinearLayout
+                    android:id="@+id/llBasicDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="200dp"
+                    android:orientation="horizontal"
+                    app:layout_collapseMode="pin">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="150dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
+                        app:cardCornerRadius="0dp"
+                        app:cardElevation="10dp">
+
+                        <ImageView
+                            android:id="@+id/ivMovieBanner"
+                            android:layout_width="100dp"
+                            android:layout_height="150dp"
+                            android:layout_margin="0dp"
+                            android:contentDescription="@string/movie_banner"
+                            android:scaleType="fitXY" />
+                    </android.support.v7.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvOriginalTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorIcon"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:contentDescription="@string/releasing_on"
+                                android:src="@drawable/film" />
+
+
+                            <TextView
+                                android:id="@+id/tvReleaseDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
+                                android:textColor="@color/colorDivider"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+
+                        <!--<TextView
+                            android:gravity="center"
+                            android:text="22"
+                            android:background="@drawable/circle"
+                            android:id="@+id/tvMovieRate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorIcon"
+                            android:visibility="visible" />-->
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppThemeToolbar" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:clipToPadding="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorAccent">
+
+
+                <!-- <ProgressBar
+                     android:id="@+id/pbLoading"
+                     android:layout_marginTop="120dp"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:theme="@style/AppTheme.GaryAccent" />-->
+
+
+                <LinearLayout
+                    android:id="@+id/llReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/review"
+                        android:src="@drawable/review" />
+
+
+                    <TextView
+                        android:id="@+id/tvMovieRate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/colorDivider"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivUsers"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:contentDescription="@string/users"
+                    android:src="@drawable/customer" />
+
+                <TextView
+                    android:id="@+id/tvTotalReviewCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ivUsers"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorDivider"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/llRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvTotalReviewCount"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp">
+
+
+                    <RatingBar
+                        android:id="@+id/ratingBar1"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="0dp"
+                        android:numStars="10"
+                        android:stepSize="0.1"
+                        android:theme="@style/RatingBar" />
+
+
+                    <TextView
+                        android:id="@+id/tvTotalCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorDivider"
+                        android:textSize="12sp"
+                        android:visibility="visible" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvDummyOverview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llRatingBar"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/overview"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorIcon" />
+
+                <WebView
+                    android:id="@+id/wvOverview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/tvDummyOverview"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_margin="0dp"
+                    android:textColor="@color/colorIcon" />
+
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

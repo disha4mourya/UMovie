@@ -30,12 +30,14 @@ dependencies {
     implementation deps.support.annotations
     implementation deps.support.recyclerView
     implementation deps.support.cardview
+    implementation deps.support.design
 
     implementation deps.square.retrofit
     implementation deps.square.gsonConverter
     implementation deps.square.okhttp
     implementation deps.square.picasso
 
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation deps.test.junit
     androidTestImplementation deps.test.testRunner
     androidTestImplementation deps.test.expressoCore
