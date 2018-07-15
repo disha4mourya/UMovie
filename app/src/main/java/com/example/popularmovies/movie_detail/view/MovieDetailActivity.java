@@ -13,6 +13,7 @@ import com.example.popularmovies.database.AppDatabase;
 import com.example.popularmovies.database.FavoriteEntity;
 import com.example.popularmovies.databinding.ActivityMovieDetailBinding;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
+import com.example.popularmovies.utils.AppExecutors;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -59,12 +60,17 @@ public class MovieDetailActivity extends AppCompatActivity {
     public void markAsFavorite() {
 
         binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_24dp));
-        FavoriteEntity favoriteEntity = new FavoriteEntity(moviesEntity.getVote_count(), String.valueOf(moviesEntity.getId()), moviesEntity.getVideo(),
+        final FavoriteEntity favoriteEntity = new FavoriteEntity(moviesEntity.getVote_count(), String.valueOf(moviesEntity.getId()), moviesEntity.getVideo(),
                 moviesEntity.getVote_average(), moviesEntity.getTitle(), moviesEntity.getPopularity(), moviesEntity.getPoster_path(),
                 moviesEntity.getOriginal_language(), moviesEntity.getOriginal_title(),
                 moviesEntity.getBackdrop_path(), moviesEntity.getAdult(), moviesEntity.getOverview(), moviesEntity.getRelease_date());
 
-        mDb.favoriteDao().insertMovie(favoriteEntity);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.favoriteDao().insertMovie(favoriteEntity);
+            }
+        });
 
         Toast.makeText(context, "inserted", Toast.LENGTH_LONG).show();
     }

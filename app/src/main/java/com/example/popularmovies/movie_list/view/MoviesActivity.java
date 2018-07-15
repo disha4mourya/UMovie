@@ -19,6 +19,7 @@ import com.example.popularmovies.movie_detail.view.MovieDetailActivity;
 import com.example.popularmovies.movie_list.contract.MoviesContract;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
 import com.example.popularmovies.movie_list.presenter.MoviesPresenter;
+import com.example.popularmovies.utils.AppExecutors;
 import com.example.popularmovies.utils.ItemClickListner;
 
 import java.util.List;
@@ -108,10 +109,23 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
 
     public void setFavoriteDataOnAdapter() {
 
-        List<FavoriteEntity> favoriteEntityList = mDb.favoriteDao().loadAllMovies();
-        favoriteMoviesAdapter.setData(favoriteEntityList);
-        binding.rvMovies.setAdapter(favoriteMoviesAdapter);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<FavoriteEntity> favoriteEntityList = mDb.favoriteDao().loadAllMovies();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        favoriteMoviesAdapter.setData(favoriteEntityList);
+                        binding.rvMovies.setAdapter(favoriteMoviesAdapter);
+                    }
+                });
+            }
+        });
         favoriteMoviesAdapter.setOnClickListener(this);
+
+
     }
 
     @Override
