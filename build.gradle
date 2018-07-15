@@ -8,7 +8,8 @@ buildscript {
             'buildTools':'27.0.1',
             'buildToolsMain':'27.0.3',
             'androidPlugin':'3.1.3',
-            'retrofit':'2.4.0'
+            'retrofit':'2.4.0',
+            'room_version' :'1.1.1'
     ]
 
     ext.deps=[
@@ -31,6 +32,10 @@ buildscript {
                     'junit':"junit:junit:4.12",
                     'testRunner':"com.android.support.test:runner:1.0.1",
                     'expressoCore':"com.android.support.test.espresso:espresso-core:3.0.1"
+            ],
+            room:[
+                    'room':"android.arch.persistence.room:runtime:${versions.room_version}",
+                    'annotations':"android.arch.persistence.room:compiler:${versions.room_version}"
             ]
     ]
     repositories {
