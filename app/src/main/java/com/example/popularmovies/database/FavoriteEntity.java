@@ -1,6 +1,7 @@
 package com.example.popularmovies.database;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
@@ -8,10 +9,11 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 @Entity(tableName = "favorite")
-public class FavoriteMoviesEntity {
+public class FavoriteEntity {
 
     private String vote_count;
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int p_id;
     private String id;
     private String video;
     private String vote_average;
@@ -20,13 +22,13 @@ public class FavoriteMoviesEntity {
     private String poster_path;
     private String original_language;
     private String original_title;
-    private List<String> genre_ids;
     private String backdrop_path;
     private String adult;
     private String overview;
     private String release_date;
 
-    public FavoriteMoviesEntity(String vote_count, String id, String video, String vote_average, String title, String popularity, String poster_path, String original_language, String original_title, List<String> genre_ids, String backdrop_path, String adult, String overview, String release_date) {
+    @Ignore
+    public FavoriteEntity(String vote_count, String id, String video, String vote_average, String title, String popularity, String poster_path, String original_language, String original_title, String backdrop_path, String adult, String overview, String release_date) {
         this.vote_count = vote_count;
         this.id = id;
         this.video = video;
@@ -36,11 +38,35 @@ public class FavoriteMoviesEntity {
         this.poster_path = poster_path;
         this.original_language = original_language;
         this.original_title = original_title;
-        this.genre_ids = genre_ids;
         this.backdrop_path = backdrop_path;
         this.adult = adult;
         this.overview = overview;
         this.release_date = release_date;
+    }
+
+    public FavoriteEntity(String vote_count, int p_id, String id, String video, String vote_average, String title, String popularity, String poster_path, String original_language, String original_title,  String backdrop_path, String adult, String overview, String release_date) {
+        this.vote_count = vote_count;
+        this.p_id = p_id;
+        this.id = id;
+        this.video = video;
+        this.vote_average = vote_average;
+        this.title = title;
+        this.popularity = popularity;
+        this.poster_path = poster_path;
+        this.original_language = original_language;
+        this.original_title = original_title;
+        this.backdrop_path = backdrop_path;
+        this.adult = adult;
+        this.overview = overview;
+        this.release_date = release_date;
+    }
+
+    public int getP_id() {
+        return p_id;
+    }
+
+    public void setP_id(int p_id) {
+        this.p_id = p_id;
     }
 
     public String getVote_count() {
@@ -113,14 +139,6 @@ public class FavoriteMoviesEntity {
 
     public void setOriginal_title(String original_title) {
         this.original_title = original_title;
-    }
-
-    public List<String> getGenre_ids() {
-        return genre_ids;
-    }
-
-    public void setGenre_ids(List<String> genre_ids) {
-        this.genre_ids = genre_ids;
     }
 
     public String getBackdrop_path() {
