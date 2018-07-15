@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.popularmovies.R;
+import com.example.popularmovies.database.AppDatabase;
+import com.example.popularmovies.database.FavoriteEntity;
 import com.example.popularmovies.databinding.ActivityMoviesBinding;
 import com.example.popularmovies.movie_detail.view.MovieDetailActivity;
 import com.example.popularmovies.movie_list.contract.MoviesContract;
@@ -21,6 +23,7 @@ import com.example.popularmovies.utils.ItemClickListner;
 
 import java.util.List;
 
+import static com.example.popularmovies.utils.Constants.FAVORITE;
 import static com.example.popularmovies.utils.Constants.MOVIES;
 import static com.example.popularmovies.utils.Constants.MOVIE_DETAILS;
 import static com.example.popularmovies.utils.Constants.POPULAR;
@@ -32,18 +35,23 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     private Context context;
     private MoviesPresenter presenter;
     private MoviesAdapter adapter;
+    private FavoriteMoviesAdapter favoriteMoviesAdapter;
     private String selectedType;
     private MenuItem item_popular, item_top_rated;
+    private AppDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movies);
         context = this;
+        mDb = AppDatabase.getInstance(getApplicationContext());
         selectedType = POPULAR;
         setNameOnToolbar();
         presenter = createPresenter(POPULAR);
+
         adapter = new MoviesAdapter(this);
+        favoriteMoviesAdapter = new FavoriteMoviesAdapter(this);
         binding.tvRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,9 +96,22 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
                 selectedType = TOP_RATED;
                 createPresenter(TOP_RATED);
                 break;
+
+            case R.id.menu_favorite:
+                selectedType = FAVORITE;
+                setFavoriteDataOnAdapter();
+                break;
         }
         setNameOnToolbar();
         return true;
+    }
+
+    public void setFavoriteDataOnAdapter() {
+
+        List<FavoriteEntity> favoriteEntityList = mDb.favoriteDao().loadAllMovies();
+        favoriteMoviesAdapter.setData(favoriteEntityList);
+        binding.rvMovies.setAdapter(favoriteMoviesAdapter);
+        favoriteMoviesAdapter.setOnClickListener(this);
     }
 
     @Override
@@ -157,6 +178,9 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         } else if (selectedType.equals(TOP_RATED)) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle(TOP_RATED + " " + MOVIES);
+        } else if (selectedType.equals(FAVORITE)) {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle(FAVORITE + " " + MOVIES);
         }
     }
 
