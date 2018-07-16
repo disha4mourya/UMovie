@@ -21,6 +21,8 @@ public interface MovieDetailsContract {
 
         void setThumbnailsOnAdapter(List<MovieDetailsVideoEntity> moviesEntities);
 
+        void notifyVideoData();
+
         void showReviewProgress(Boolean show);
 
         void showReviewList(Boolean show);
@@ -29,25 +31,27 @@ public interface MovieDetailsContract {
 
         void setReviewOnAdapter(List<MovieDetailsReviewEntity> moviesEntities);
 
+        void notifyReviewData();
+
     }
 
     interface Presenter {
-        void getVideos();
+        void getVideos(String id);
 
-        void getReviews();
+        void getReviews(String id);
 
         void onThumbnailClick(int position);
     }
 
     interface Model {
 
-        void fetchVideos(String type, LoadCallback<Response> loadCallback);
+        void fetchVideos( String id,LoadCallback<Response> loadCallback);
 
         void setVideosEntityList(List<MovieDetailsVideoEntity> moviesEntityList);
 
         List<MovieDetailsVideoEntity> getVideosEntityList();
 
-        void fetchReviews(String type, LoadCallback<Response> loadCallback);
+        void fetchReviews(String id, LoadCallback<Response> loadCallback);
 
         void setReviewsEntityList(List<MovieDetailsReviewEntity> moviesEntityList);
 

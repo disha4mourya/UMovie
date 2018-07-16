@@ -55,7 +55,7 @@ public class MovieDetailsVideoAdapter extends RecyclerView.Adapter<MovieDetailsV
 
         setAnimation(holder.itemView, position);
 
-        Picasso.with(context).load(PRE_YOUTUBE_THUMBNAIL + moviesEntity.getKey())
+        Picasso.with(context).load(PRE_YOUTUBE_THUMBNAIL + moviesEntity.getKey()+"/0.jpg")
                 .error(R.drawable.error)
                 .into(holder.binding.ivThumbnail, new Callback() {
                     @Override
@@ -68,7 +68,7 @@ public class MovieDetailsVideoAdapter extends RecyclerView.Adapter<MovieDetailsV
                     }
                 });
         holder.binding.tvName.setText(moviesEntity.getName());
-        Locale loc = new Locale(moviesEntity.getIso_3166_1());
+        Locale loc = new Locale(moviesEntity.getIso_639_1());
         holder.binding.tvMovieLang.setText(loc.getDisplayLanguage(loc));
 
 

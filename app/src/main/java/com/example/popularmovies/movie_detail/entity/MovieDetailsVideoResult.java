@@ -3,13 +3,13 @@ package com.example.popularmovies.movie_detail.entity;
 import java.util.List;
 
 public class MovieDetailsVideoResult {
-    private List<MovieDetailsReviewEntity> results;
+    private List<MovieDetailsVideoEntity> results;
 
-    public List<MovieDetailsReviewEntity> getResults() {
+    public List<MovieDetailsVideoEntity> getResults() {
         return results;
     }
 
-    public void setResults(List<MovieDetailsReviewEntity> results) {
+    public void setResults(List<MovieDetailsVideoEntity> results) {
         this.results = results;
     }
 }

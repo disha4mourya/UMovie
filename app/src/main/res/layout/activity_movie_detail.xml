@@ -281,9 +281,16 @@
                     android:textAllCaps="true"
                     android:textColor="@color/colorIcon" />
 
+                <View
+                    android:layout_margin="10dp"
+                    android:id="@+id/viewTrailers"
+                    android:layout_below="@+id/tvTrailers"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider"/>
                 <RelativeLayout
                     android:id="@+id/rlTrailers"
-                    android:layout_below="@+id/tvTrailers"
+                    android:layout_below="@+id/viewTrailers"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorAccent"
@@ -363,9 +370,16 @@
                     android:textAllCaps="true"
                     android:textColor="@color/colorIcon" />
 
+                <View
+                    android:layout_margin="10dp"
+                    android:id="@+id/viewReviews"
+                    android:layout_below="@+id/tvReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider"/>
                 <RelativeLayout
                     android:id="@+id/rlReviews"
-                    android:layout_below="@+id/tvReviews"
+                    android:layout_below="@+id/viewReviews"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorAccent"

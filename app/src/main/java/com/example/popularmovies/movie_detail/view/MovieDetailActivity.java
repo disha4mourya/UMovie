@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.example.popularmovies.R;
@@ -48,8 +49,10 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
         context = this;
 
-        presenter=createPresenter();
+
         mDb = AppDatabase.getInstance(getApplicationContext());
+        movieDetailsVideoAdapter = new MovieDetailsVideoAdapter(this);
+        movieDetailsReviewAdapter = new MovieDetailsReviewAdapter(this);
 
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
@@ -59,7 +62,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
         if (moviesEntity != null)
             setDataOnViews();
 
-
+        presenter = createPresenter();
         binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +75,21 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
                 markAsFavorite();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        LinearLayoutManager mLayoutManagerTrailer = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+
+        binding.rvTrailer.setLayoutManager(mLayoutManagerTrailer);
+        binding.rvTrailer.setHasFixedSize(true);
+
+        LinearLayoutManager mLayoutManagerReview = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+
+        binding.rvReviews.setLayoutManager(mLayoutManagerReview);
+        binding.rvReviews.setHasFixedSize(true);
     }
 
     @Override
@@ -231,32 +249,33 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
     }
 
 
-
-
-
-
-
     private MovieDetailsPresenter createPresenter() {
         presenter = new MovieDetailsPresenter(this, this);
-        presenter.getVideos();
-        presenter.getReviews();
+        presenter.getVideos(moviesEntity.getId());
+        presenter.getReviews(moviesEntity.getId());
         return presenter;
     }
 
 
     @Override
     public void showVideoProgress(Boolean show) {
+        binding.pbTrailerLoading.setVisibility(show ? View.VISIBLE : View.GONE);
 
     }
 
     @Override
     public void showVideoList(Boolean show) {
+        binding.rvTrailer.setVisibility(show ? View.VISIBLE : View.GONE);
 
     }
 
     @Override
     public void showVideoError(Boolean show, Boolean error, String errorMsg, Boolean favorite) {
-
+        binding.rlTrailerError.setVisibility(show ? View.VISIBLE : View.GONE);
+        binding.tvTrailerError.setVisibility(error ? View.VISIBLE : View.GONE);
+        binding.tvTrailerRetry.setVisibility(favorite ? View.GONE : View.VISIBLE);
+        binding.tvTrailerEmpty.setVisibility(error ? View.GONE : View.VISIBLE);
+        binding.tvTrailerError.setText(errorMsg);
     }
 
     @Override
@@ -279,26 +298,47 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
     @Override
     public void setThumbnailsOnAdapter(List<MovieDetailsVideoEntity> moviesEntities) {
+        movieDetailsVideoAdapter.setData(moviesEntities);
+        binding.rvTrailer.setAdapter(movieDetailsVideoAdapter);
+        movieDetailsVideoAdapter.setOnClickListener(this);
+    }
 
+    @Override
+    public void notifyVideoData() {
+        movieDetailsVideoAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showReviewProgress(Boolean show) {
+        binding.pbReviewsLoading.setVisibility(show ? View.VISIBLE : View.GONE);
 
     }
 
     @Override
     public void showReviewList(Boolean show) {
+        binding.rvReviews.setVisibility(show ? View.VISIBLE : View.GONE);
 
     }
 
     @Override
     public void showReviewError(Boolean show, Boolean error, String errorMsg, Boolean favorite) {
-
+        binding.rlReviewsError.setVisibility(show ? View.VISIBLE : View.GONE);
+        binding.tvReviewsError.setVisibility(error ? View.VISIBLE : View.GONE);
+        binding.tvReviewsRetry.setVisibility(favorite ? View.GONE : View.VISIBLE);
+        binding.tvReviewsEmpty.setVisibility(error ? View.GONE : View.VISIBLE);
+        binding.tvReviewsError.setText(errorMsg);
     }
 
     @Override
     public void setReviewOnAdapter(List<MovieDetailsReviewEntity> moviesEntities) {
+        movieDetailsReviewAdapter.setData(moviesEntities);
+        binding.rvReviews.setAdapter(movieDetailsReviewAdapter);
+        movieDetailsReviewAdapter.setOnClickListener(this);
+    }
+
+    @Override
+    public void notifyReviewData() {
+        movieDetailsReviewAdapter.notifyDataSetChanged();
 
     }
 
