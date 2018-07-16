@@ -1,8 +1,10 @@
 package com.example.popularmovies.movie_detail.view;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,17 +13,22 @@ import com.example.popularmovies.R;
 import com.example.popularmovies.database.AppDatabase;
 import com.example.popularmovies.database.FavoriteEntity;
 import com.example.popularmovies.databinding.ActivityMovieDetailBinding;
+import com.example.popularmovies.movie_detail.contract.MovieDetailsContract;
+import com.example.popularmovies.movie_detail.entity.MovieDetailsReviewEntity;
+import com.example.popularmovies.movie_detail.entity.MovieDetailsVideoEntity;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
 import com.example.popularmovies.utils.AppExecutors;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import static com.example.popularmovies.utils.Constants.BIG_IMAGE_APPEND;
 import static com.example.popularmovies.utils.Constants.IMAGE_APPEND;
 import static com.example.popularmovies.utils.Constants.MOVIE_DETAILS;
 
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends AppCompatActivity implements MovieDetailsContract.View {
     private ActivityMovieDetailBinding binding;
     private Context context;
     MoviesEntity moviesEntity;
@@ -86,7 +93,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                             binding.tvFavorite.setText(R.string.mark_as_favorite);
                         }
                     });
-                }else {
+                } else {
                     final FavoriteEntity favoriteEntity = new FavoriteEntity(moviesEntity.getVote_count(), String.valueOf(moviesEntity.getId()), moviesEntity.getVideo(),
                             moviesEntity.getVote_average(), moviesEntity.getTitle(), moviesEntity.getPopularity(), moviesEntity.getPoster_path(),
                             moviesEntity.getOriginal_language(), moviesEntity.getOriginal_title(),
@@ -216,4 +223,62 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void showVideoProgress(Boolean show) {
+
+    }
+
+    @Override
+    public void showVideoList(Boolean show) {
+
+    }
+
+    @Override
+    public void showVideoError(Boolean show, Boolean error, String errorMsg, Boolean favorite) {
+
+    }
+
+    @Override
+    public void showTrailer(MovieDetailsVideoEntity moviesEntity) {
+
+        try {
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + moviesEntity.getKey()));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        } catch (ActivityNotFoundException e) {
+
+            // youtube is not installed.Will be opened in other available apps
+
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/watch?v=" + moviesEntity.getKey()));
+            startActivity(i);
+        }
+    }
+
+    @Override
+    public void setThumbnailsOnAdapter(List<MovieDetailsVideoEntity> moviesEntities) {
+
+    }
+
+    @Override
+    public void showReviewProgress(Boolean show) {
+
+    }
+
+    @Override
+    public void showReviewList(Boolean show) {
+
+    }
+
+    @Override
+    public void showReviewError(Boolean show, Boolean error, String errorMsg, Boolean favorite) {
+
+    }
+
+    @Override
+    public void setReviewOnAdapter(List<MovieDetailsReviewEntity> moviesEntities) {
+
+    }
 }

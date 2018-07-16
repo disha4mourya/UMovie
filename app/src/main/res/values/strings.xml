@@ -22,4 +22,5 @@
     <string name="mark_as_favorite">Mark as favorite</string>
     <string name="remove_from_favorites">Remove from favorites</string>
     <string name="trailers">Trailers</string>
+    <string name="author">Author</string>
 </resources>
