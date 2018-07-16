@@ -6,4 +6,6 @@
     <color name="colorAccent">#000000</color>
     <color name="colorIcon">#FFFFFF</color>
     <color name="colorDivider">#BDBDBD</color>
+    <!--<color name="colorDarkerDivider">#383838</color>-->
+    <color name="colorDarkerDivider">#4b4b4b</color>
 </resources>

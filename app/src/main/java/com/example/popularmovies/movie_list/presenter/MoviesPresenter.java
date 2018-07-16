@@ -41,7 +41,7 @@ public class MoviesPresenter implements MoviesContract.Presenter {
         if (serviceManager.isNetworkAvailable()) {
             view.showProgress(true);
             view.showMovieList(false);
-            view.showError(false, false, "");
+            view.showError(false, false, "",false);
             model.fetchMovies(type, new LoadCallback<Response>() {
                 @Override
                 public void onSuccess(Response response) {
@@ -56,14 +56,14 @@ public class MoviesPresenter implements MoviesContract.Presenter {
         } else {
             view.showProgress(false);
             view.showMovieList(false);
-            view.showError(true, true, context.getString(R.string.no_internet_connection));
+            view.showError(true, true, context.getString(R.string.no_internet_connection),false);
         }
     }
 
     private void hideListAndProgressAndSetErrorMessage(String msg) {
         view.showMovieList(false);
         view.showProgress(false);
-        view.showError(false, false, msg);
+        view.showError(false, false, msg,false);
     }
 
     private void handleResponseCodes(Response<MovieResult> response) {
@@ -79,7 +79,7 @@ public class MoviesPresenter implements MoviesContract.Presenter {
 
                 view.showMovieList(true);
                 view.showProgress(false);
-                view.showError(false, false, "");
+                view.showError(false, false, "",false);
 
                 model.setMoviesEntityList(response.body().getResult());
                 view.setDataOnAdapter(response.body().getResult());
@@ -108,14 +108,14 @@ public class MoviesPresenter implements MoviesContract.Presenter {
             public void onSuccess(List<FavoriteEntity> response) {
                 view.showMovieList(true);
                 view.showProgress(false);
-                view.showError(false, false, "");
+                view.showError(false, false, "",true);
                 model.setFavoriteMovieEntityList(response);
                 if (response.size() > 0) {
                     view.setDataOnFavoriteAdapter(response);
                 } else {
                     view.showProgress(false);
                     view.showMovieList(false);
-                    view.showError(true, true, context.getString(R.string.movie_list_is_empty));
+                    view.showError(true, true, context.getString(R.string.movie_list_is_empty),true);
                 }
             }
 
@@ -123,7 +123,7 @@ public class MoviesPresenter implements MoviesContract.Presenter {
             public void onFailure(Throwable throwable) {
                 view.showProgress(false);
                 view.showMovieList(false);
-                view.showError(true, true, context.getString(R.string.something_went_wrong));
+                view.showError(true, true, context.getString(R.string.something_went_wrong),true);
             }
         });
 

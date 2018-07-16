@@ -15,7 +15,7 @@ public interface MoviesContract {
 
         void showMovieList(Boolean show);
 
-        void showError(Boolean show, Boolean error, String errorMsg);
+        void showError(Boolean show, Boolean error, String errorMsg,Boolean favorite);
 
         void showMovieDetails(MoviesEntity moviesEntity);
 

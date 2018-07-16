@@ -1,7 +1,6 @@
 package com.example.popularmovies.database;
 
 import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
@@ -21,8 +20,12 @@ public interface FavoriteDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateMovie(FavoriteEntity taskEntry);
 
-    @Delete
-    void deleteMovie(FavoriteEntity taskEntry);
+    @Query("DELETE FROM favorite WHERE id =:id")
+        /*void deleteMovie(String id);*/
+    void deleteMovie(String id);
+
+    @Query("SELECT * FROM favorite WHERE id = :id")
+    FavoriteEntity loadMovieById(String id);
 }
 
 

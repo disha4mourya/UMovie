@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.popularmovies.R;
 import com.example.popularmovies.database.AppDatabase;
@@ -18,8 +17,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import static com.example.popularmovies.utils.Constants.BIG_IMAGE_APPEND;
-import static com.example.popularmovies.utils.Constants.CAMEFROM;
-import static com.example.popularmovies.utils.Constants.FAVORITE;
 import static com.example.popularmovies.utils.Constants.IMAGE_APPEND;
 import static com.example.popularmovies.utils.Constants.MOVIE_DETAILS;
 
@@ -43,19 +40,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
 
-
         assert bundle != null;
-        CAMEFROM = bundle.getString(CAMEFROM);
+        moviesEntity = (MoviesEntity) bundle.getSerializable(MOVIE_DETAILS);
+        if (moviesEntity != null)
+            setDataOnViews();
 
-        assert CAMEFROM != null;
-        if (CAMEFROM.equals(FAVORITE)) {
-            favoriteEntity = (FavoriteEntity) bundle.getSerializable(MOVIE_DETAILS);
-            favoriteToMovieEntity();
-        } else {
-            moviesEntity = (MoviesEntity) bundle.getSerializable(MOVIE_DETAILS);
-            if (moviesEntity != null)
-                setDataOnViews();
-        }
 
         binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,39 +60,85 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void favoriteToMovieEntity() {
-        moviesEntity = new MoviesEntity();
-        moviesEntity.setId(favoriteEntity.getId());
-        moviesEntity.setAdult(favoriteEntity.getAdult());
-        moviesEntity.setBackdrop_path(favoriteEntity.getBackdrop_path());
-        moviesEntity.setOriginal_language(favoriteEntity.getOriginal_language());
-        moviesEntity.setOriginal_title(favoriteEntity.getOriginal_title());
-        moviesEntity.setOverview(favoriteEntity.getOverview());
-        moviesEntity.setPopularity(favoriteEntity.getPopularity());
-        moviesEntity.setPoster_path(favoriteEntity.getPoster_path());
-        moviesEntity.setRelease_date(favoriteEntity.getRelease_date());
-        moviesEntity.setTitle(favoriteEntity.getTitle());
-        moviesEntity.setVideo(favoriteEntity.getVideo());
-        moviesEntity.setVote_average(favoriteEntity.getVote_average());
-        moviesEntity.setVote_count(favoriteEntity.getVote_count());
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(MOVIE_DETAILS, moviesEntity);
+        super.onSaveInstanceState(outState);
     }
 
     public void markAsFavorite() {
-
-        binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_black_24dp));
-        final FavoriteEntity favoriteEntity = new FavoriteEntity(moviesEntity.getVote_count(), String.valueOf(moviesEntity.getId()), moviesEntity.getVideo(),
-                moviesEntity.getVote_average(), moviesEntity.getTitle(), moviesEntity.getPopularity(), moviesEntity.getPoster_path(),
-                moviesEntity.getOriginal_language(), moviesEntity.getOriginal_title(),
-                moviesEntity.getBackdrop_path(), moviesEntity.getAdult(), moviesEntity.getOverview(), moviesEntity.getRelease_date());
-
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                mDb.favoriteDao().insertMovie(favoriteEntity);
+                FavoriteEntity favoriteEntity2 = mDb.favoriteDao().loadMovieById(moviesEntity.getId());
+
+                if (favoriteEntity2 != null) {
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDb.favoriteDao().deleteMovie(moviesEntity.getId());
+                        }
+                    });
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.unmarkedstar));
+                            binding.tvFavorite.setText(R.string.mark_as_favorite);
+                        }
+                    });
+                }else {
+                    final FavoriteEntity favoriteEntity = new FavoriteEntity(moviesEntity.getVote_count(), String.valueOf(moviesEntity.getId()), moviesEntity.getVideo(),
+                            moviesEntity.getVote_average(), moviesEntity.getTitle(), moviesEntity.getPopularity(), moviesEntity.getPoster_path(),
+                            moviesEntity.getOriginal_language(), moviesEntity.getOriginal_title(),
+                            moviesEntity.getBackdrop_path(), moviesEntity.getAdult(), moviesEntity.getOverview(), moviesEntity.getRelease_date());
+
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDb.favoriteDao().insertMovie(favoriteEntity);
+                        }
+                    });
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.markedstar));
+                            binding.tvFavorite.setText(R.string.remove_from_favorites);
+                        }
+                    });
+                }
             }
         });
+        /*if (checkFavoriteStoredData(moviesEntity.getId()) != null) {
 
-        Toast.makeText(context, "inserted", Toast.LENGTH_LONG).show();
+            Log.d("alreadymarked", "datailcheck " + moviesEntity.getId());
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    mDb.favoriteDao().deleteMovie(moviesEntity.getId());
+                }
+            });
+            binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.unmarkedstar));
+            binding.tvFavorite.setText(R.string.mark_as_favorite);
+            Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
+
+        } else {
+            binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.markedstar));
+            binding.tvFavorite.setText(R.string.remove_from_favorites);
+            final FavoriteEntity favoriteEntity = new FavoriteEntity(moviesEntity.getVote_count(), String.valueOf(moviesEntity.getId()), moviesEntity.getVideo(),
+                    moviesEntity.getVote_average(), moviesEntity.getTitle(), moviesEntity.getPopularity(), moviesEntity.getPoster_path(),
+                    moviesEntity.getOriginal_language(), moviesEntity.getOriginal_title(),
+                    moviesEntity.getBackdrop_path(), moviesEntity.getAdult(), moviesEntity.getOverview(), moviesEntity.getRelease_date());
+
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    mDb.favoriteDao().insertMovie(favoriteEntity);
+                }
+            });
+
+            this.favoriteEntity = null;
+            Toast.makeText(context, "Marked as favorite!!!", Toast.LENGTH_SHORT).show();
+        }*/
     }
 
     @Override
@@ -154,5 +189,31 @@ public class MovieDetailActivity extends AppCompatActivity {
         binding.tvTotalReviewCount.setText(moviesEntity.getVote_count());
         voteRate = Float.valueOf(moviesEntity.getVote_average());
         binding.ratingBar1.setRating(voteRate);
+
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                FavoriteEntity favoriteEntity2 = mDb.favoriteDao().loadMovieById(moviesEntity.getId());
+
+                if (favoriteEntity2 != null) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.markedstar));
+                        }
+                    });
+                }
+            }
+        });
+        /*FavoriteEntity favoriteEntity = checkFavoriteStoredData(moviesEntity.getId());
+        if (favoriteEntity != null) {
+            binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.markedstar));
+            this.favoriteEntity = null;
+        } else {
+            Log.d("gotThisId", "db" + "didn't get");
+        }*/
+
+
     }
+
 }

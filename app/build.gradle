@@ -39,6 +39,9 @@ dependencies {
     implementation deps.room.room
     annotationProcessor deps.room.annotations
 
+    implementation deps.live_data.liveData
+    annotationProcessor deps.live_data.annotations
+
     testImplementation deps.test.junit
     androidTestImplementation deps.test.testRunner
     androidTestImplementation deps.test.expressoCore

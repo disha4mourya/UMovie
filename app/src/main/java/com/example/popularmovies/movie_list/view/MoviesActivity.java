@@ -7,12 +7,10 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 
 import com.example.popularmovies.R;
 import com.example.popularmovies.database.AppDatabase;
@@ -42,7 +40,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     private MoviesAdapter adapter;
     private FavoriteMoviesAdapter favoriteMoviesAdapter;
     private String selectedType;
-    private MenuItem item_popular, item_top_rated;
+    private MenuItem item_popular, item_top_rated, item_favorite;
     private AppDatabase mDb;
 
     @Override
@@ -53,19 +51,19 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         mDb = AppDatabase.getInstance(getApplicationContext());
         selectedType = POPULAR;
         setNameOnToolbar();
-        presenter = createPresenter(POPULAR);
+        presenter = createPresenter();
+
 
         adapter = new MoviesAdapter(this);
         favoriteMoviesAdapter = new FavoriteMoviesAdapter(this);
         binding.tvRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createPresenter(selectedType);
+                presenter.getMovies(selectedType);
             }
         });
 
-
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.UP | ItemTouchHelper.DOWN) {
+        /*new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.UP | ItemTouchHelper.DOWN) {
             @Override
             public boolean onMove(RecyclerView recyclerView, final RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -79,12 +77,12 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
                     public void run() {
                         int position = viewHolder.getAdapterPosition();
                         List<FavoriteEntity> favoriteEntities = favoriteMoviesAdapter.getMoviesEntityList();
-                        mDb.favoriteDao().deleteMovie(favoriteEntities.get(position));
+                        mDb.favoriteDao().deleteMovie(favoriteEntities.get(position).getId());
                         createPresenter(selectedType);
                     }
                 });
             }
-        }).attachToRecyclerView(binding.rvMovies);
+        }).attachToRecyclerView(binding.rvMovies);*/
     }
 
     @Override
@@ -100,6 +98,14 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         }
         binding.rvMovies.setLayoutManager(mLayoutManager);
         binding.rvMovies.setHasFixedSize(true);
+
+        Log.d("SelectedType", "is " + selectedType);
+        if (selectedType.equals(FAVORITE)) {
+            presenter.getFavoriteMovies();
+        } else {
+            presenter.getMovies(selectedType);
+        }
+        setNameOnToolbar();
     }
 
     @Override
@@ -107,6 +113,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         getMenuInflater().inflate(R.menu.main_menu, menu);
         item_popular = menu.findItem(R.id.menu_popular);
         item_top_rated = menu.findItem(R.id.menu_top_rated);
+        item_favorite = menu.findItem(R.id.menu_favorite);
         setMenuItems();
         return true;
     }
@@ -117,11 +124,11 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         switch (item.getItemId()) {
             case R.id.menu_popular:
                 selectedType = POPULAR;
-                createPresenter(POPULAR);
+                presenter.getMovies(POPULAR);
                 break;
             case R.id.menu_top_rated:
                 selectedType = TOP_RATED;
-                createPresenter(TOP_RATED);
+                presenter.getMovies(TOP_RATED);
                 break;
 
             case R.id.menu_favorite:
@@ -131,6 +138,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
                 //setFavoriteDataOnAdapter();
                 break;
         }
+        setMenuItems();
         setNameOnToolbar();
         return true;
     }
@@ -167,9 +175,10 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     }
 
     @Override
-    public void showError(Boolean show, Boolean error, String errorMsg) {
+    public void showError(Boolean show, Boolean error, String errorMsg, Boolean favorite) {
         binding.rlError.setVisibility(show ? View.VISIBLE : View.GONE);
         binding.tvError.setVisibility(error ? View.VISIBLE : View.GONE);
+        binding.tvRetry.setVisibility(favorite ? View.GONE : View.VISIBLE);
         binding.tvEmpty.setVisibility(error ? View.GONE : View.VISIBLE);
         binding.tvError.setText(errorMsg);
     }
@@ -180,7 +189,32 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         Intent yourIntent = new Intent(this, MovieDetailActivity.class);
         Bundle b = new Bundle();
         b.putSerializable(MOVIE_DETAILS, moviesEntity);
-        b.putString(CAMEFROM, FAVORITE);
+        b.putString(CAMEFROM, selectedType);
+        yourIntent.putExtras(b);
+        startActivity(yourIntent);
+    }
+
+    @Override
+    public void showFavoriteMovieDetails(FavoriteEntity favoriteEntity) {
+
+        MoviesEntity moviesEntity = new MoviesEntity();
+        moviesEntity.setId(favoriteEntity.getId());
+        moviesEntity.setAdult(favoriteEntity.getAdult());
+        moviesEntity.setBackdrop_path(favoriteEntity.getBackdrop_path());
+        moviesEntity.setOriginal_language(favoriteEntity.getOriginal_language());
+        moviesEntity.setOriginal_title(favoriteEntity.getOriginal_title());
+        moviesEntity.setOverview(favoriteEntity.getOverview());
+        moviesEntity.setPopularity(favoriteEntity.getPopularity());
+        moviesEntity.setPoster_path(favoriteEntity.getPoster_path());
+        moviesEntity.setRelease_date(favoriteEntity.getRelease_date());
+        moviesEntity.setTitle(favoriteEntity.getTitle());
+        moviesEntity.setVideo(favoriteEntity.getVideo());
+        moviesEntity.setVote_average(favoriteEntity.getVote_average());
+        moviesEntity.setVote_count(favoriteEntity.getVote_count());
+
+        Intent yourIntent = new Intent(this, MovieDetailActivity.class);
+        Bundle b = new Bundle();
+        b.putSerializable(MOVIE_DETAILS, moviesEntity);
         yourIntent.putExtras(b);
         startActivity(yourIntent);
     }
@@ -207,19 +241,8 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         setMenuItems();
     }
 
-    @Override
-    public void showFavoriteMovieDetails(FavoriteEntity favoriteEntity) {
-        Intent yourIntent = new Intent(this, MovieDetailActivity.class);
-        Bundle b = new Bundle();
-        b.putSerializable(MOVIE_DETAILS, favoriteEntity);
-        b.putString(CAMEFROM, FAVORITE);
-        yourIntent.putExtras(b);
-        startActivity(yourIntent);
-    }
-
-    private MoviesPresenter createPresenter(String type) {
+    private MoviesPresenter createPresenter() {
         presenter = new MoviesPresenter(this, this);
-        presenter.getMovies(type);
         return presenter;
     }
 
@@ -227,9 +250,15 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         if (selectedType.equals(POPULAR)) {
             item_popular.setVisible(false);
             item_top_rated.setVisible(true);
+            item_favorite.setVisible(true);
         } else if (selectedType.equals(TOP_RATED)) {
             item_popular.setVisible(true);
+            item_favorite.setVisible(true);
             item_top_rated.setVisible(false);
+        } else if (selectedType.equals(FAVORITE)) {
+            item_popular.setVisible(true);
+            item_top_rated.setVisible(true);
+            item_favorite.setVisible(false);
         }
     }
 
