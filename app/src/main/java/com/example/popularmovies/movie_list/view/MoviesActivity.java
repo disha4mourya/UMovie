@@ -1,7 +1,7 @@
 package com.example.popularmovies.movie_list.view;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +41,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     private MoviesPresenter presenter;
     private MoviesAdapter adapter;
     private FavoriteMoviesAdapter favoriteMoviesAdapter;
-    private String selectedType;
+    private String selectedType = POPULAR;
     private MenuItem item_popular, item_top_rated, item_favorite;
     private AppDatabase mDb;
     private List<FavoriteEntity> favoriteEntityList;
@@ -51,10 +52,8 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movies);
         context = this;
         mDb = AppDatabase.getInstance(getApplicationContext());
-        selectedType = POPULAR;
-        setNameOnToolbar();
+        // selectedType = POPULAR;
         presenter = createPresenter();
-
 
         adapter = new MoviesAdapter(this);
         favoriteMoviesAdapter = new FavoriteMoviesAdapter(this);
@@ -86,14 +85,48 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
             }
         }).attachToRecyclerView(binding.rvMovies);*/
 
+        Log.d("restoringTheDataOncreat", "is " + selectedType);
+
+        if (savedInstanceState != null)
+            selectedType = savedInstanceState.getString("selectedType");
+
+        assert selectedType != null;
         if (selectedType.equals(FAVORITE)) {
-            retriveFavoriteMovies();
+            setupViewModel();
         } else {
             presenter.getMovies(selectedType);
         }
+
+        setNameOnToolbar();
     }
 
-    public void retriveFavoriteMovies() {
+    private void setupViewModel() {
+        // COMPLETED (5) Remove the logging and the call to loadAllTasks, this is done in the ViewModel now
+        // COMPLETED (6) Declare a ViewModel variable and initialize it by calling ViewModelProviders.of
+        MoviesViewModel viewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
+        // COMPLETED (7) Observe the LiveData object in the ViewModel
+        viewModel.getFavoriteEntities().observe(this, new Observer<List<FavoriteEntity>>() {
+
+            @Override
+            public void onChanged(@Nullable List<FavoriteEntity> favoriteEntities) {
+                if (favoriteEntities != null && favoriteEntities.size() > 0) {
+                    //favoriteMoviesAdapter.setData(favoriteEntities);
+                    favoriteEntityList = favoriteEntities;
+                    setDataOnFavoriteAdapter(favoriteEntities);
+                    showMovieList(true);
+                    showProgress(false);
+                    showError(false, false, "", true);
+                    binding.rvMovies.setAdapter(favoriteMoviesAdapter);
+                } else {
+                    showProgress(false);
+                    showMovieList(false);
+                    showError(true, true, context.getString(R.string.movie_list_is_empty), true);
+                }
+            }
+        });
+    }
+
+    /*public void retriveFavoriteMovies() {
         LiveData<List<FavoriteEntity>> tasks = mDb.favoriteDao().loadAllMovies();
         tasks.observe(this, new Observer<List<FavoriteEntity>>() {
             @Override
@@ -116,7 +149,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         favoriteMoviesAdapter.setOnClickListener(this);
 
     }
-
+*/
     @Override
     protected void onResume() {
         super.onResume();
@@ -130,6 +163,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         }
         binding.rvMovies.setLayoutManager(mLayoutManager);
         binding.rvMovies.setHasFixedSize(true);
+
 
         if (!selectedType.equals(FAVORITE)) {
             presenter.getMovies(selectedType);
@@ -163,7 +197,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
             case R.id.menu_favorite:
                 selectedType = FAVORITE;
                 presenter = new MoviesPresenter(this, this);
-                retriveFavoriteMovies();
+                setupViewModel();
                 //setFavoriteDataOnAdapter();
                 break;
         }
@@ -191,6 +225,29 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         favoriteMoviesAdapter.setOnClickListener(this);
 
 
+    }*/
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("storingTheData", "is " + selectedType);
+
+        outState.putString("selectedType", selectedType);
+    }
+
+   /* @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d("restoringTheData", "is " + savedInstanceState.getString("selectedType"));
+        selectedType = savedInstanceState.getString("selectedType");
+
+        if (selectedType.equals(FAVORITE)) {
+            retriveFavoriteMovies();
+        } else {
+            presenter.getMovies(selectedType);
+        }
+
+        setNameOnToolbar();
     }*/
 
     @Override
@@ -267,7 +324,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         favoriteMoviesAdapter.setData(favoriteEntities);
         binding.rvMovies.setAdapter(favoriteMoviesAdapter);
         favoriteMoviesAdapter.setOnClickListener(this);
-        setMenuItems();
+        // setMenuItems();
     }
 
     private MoviesPresenter createPresenter() {
