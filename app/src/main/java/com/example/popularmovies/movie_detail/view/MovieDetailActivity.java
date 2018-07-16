@@ -16,8 +16,10 @@ import com.example.popularmovies.databinding.ActivityMovieDetailBinding;
 import com.example.popularmovies.movie_detail.contract.MovieDetailsContract;
 import com.example.popularmovies.movie_detail.entity.MovieDetailsReviewEntity;
 import com.example.popularmovies.movie_detail.entity.MovieDetailsVideoEntity;
+import com.example.popularmovies.movie_detail.presenter.MovieDetailsPresenter;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
 import com.example.popularmovies.utils.AppExecutors;
+import com.example.popularmovies.utils.ItemClickListner;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -28,7 +30,7 @@ import static com.example.popularmovies.utils.Constants.IMAGE_APPEND;
 import static com.example.popularmovies.utils.Constants.MOVIE_DETAILS;
 
 
-public class MovieDetailActivity extends AppCompatActivity implements MovieDetailsContract.View {
+public class MovieDetailActivity extends AppCompatActivity implements MovieDetailsContract.View, ItemClickListner {
     private ActivityMovieDetailBinding binding;
     private Context context;
     MoviesEntity moviesEntity;
@@ -36,12 +38,17 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
     private AppDatabase mDb;
 
+    MovieDetailsPresenter presenter;
+    MovieDetailsVideoAdapter movieDetailsVideoAdapter;
+    MovieDetailsReviewAdapter movieDetailsReviewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
         context = this;
 
+        presenter=createPresenter();
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         Intent i = getIntent();
@@ -224,6 +231,19 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
     }
 
 
+
+
+
+
+
+    private MovieDetailsPresenter createPresenter() {
+        presenter = new MovieDetailsPresenter(this, this);
+        presenter.getVideos();
+        presenter.getReviews();
+        return presenter;
+    }
+
+
     @Override
     public void showVideoProgress(Boolean show) {
 
@@ -279,6 +299,11 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
     @Override
     public void setReviewOnAdapter(List<MovieDetailsReviewEntity> moviesEntities) {
+
+    }
+
+    @Override
+    public void onClick(View view, int position) {
 
     }
 }

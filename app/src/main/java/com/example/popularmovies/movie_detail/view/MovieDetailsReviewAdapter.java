@@ -50,6 +50,9 @@ public class MovieDetailsReviewAdapter extends RecyclerView.Adapter<MovieDetails
 
         setAnimation(holder.itemView, position);
 
+        holder.binding.tvAuthor.setText(moviesEntity.getAuthor());
+        holder.binding.tvContent.setText(moviesEntity.getContent());
+        holder.binding.tvUrl.setText(moviesEntity.getUrl());
     }
 
     private void setAnimation(View viewToAnimate, int position) {

@@ -34,6 +34,8 @@ public interface MovieDetailsContract {
     interface Presenter {
         void getVideos();
 
+        void getReviews();
+
         void onThumbnailClick(int position);
     }
 

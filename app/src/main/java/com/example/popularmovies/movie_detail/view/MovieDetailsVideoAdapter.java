@@ -13,8 +13,13 @@ import com.example.popularmovies.R;
 import com.example.popularmovies.databinding.ThumbnailRowBinding;
 import com.example.popularmovies.movie_detail.entity.MovieDetailsVideoEntity;
 import com.example.popularmovies.utils.ItemClickListner;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
+
+import static com.example.popularmovies.utils.Constants.PRE_YOUTUBE_THUMBNAIL;
 
 public class MovieDetailsVideoAdapter extends RecyclerView.Adapter<MovieDetailsVideoAdapter.MovieViewHolder> {
 
@@ -49,6 +54,23 @@ public class MovieDetailsVideoAdapter extends RecyclerView.Adapter<MovieDetailsV
         MovieDetailsVideoEntity moviesEntity = moviesEntityList.get(position);
 
         setAnimation(holder.itemView, position);
+
+        Picasso.with(context).load(PRE_YOUTUBE_THUMBNAIL + moviesEntity.getKey())
+                .error(R.drawable.error)
+                .into(holder.binding.ivThumbnail, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.binding.pbLoadingThumbnail.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
+        holder.binding.tvName.setText(moviesEntity.getName());
+        Locale loc = new Locale(moviesEntity.getIso_3166_1());
+        holder.binding.tvMovieLang.setText(loc.getDisplayLanguage(loc));
+
 
     }
 

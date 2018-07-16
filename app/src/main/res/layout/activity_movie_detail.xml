@@ -281,12 +281,156 @@
                     android:textAllCaps="true"
                     android:textColor="@color/colorIcon" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvTrailers"
+                <RelativeLayout
+                    android:id="@+id/rlTrailers"
+                    android:layout_below="@+id/tvTrailers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"
+                    tools:context=".songs_list.view.SongsActivity">
+
+                    <ProgressBar
+                        android:id="@+id/pbTrailerLoading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:theme="@style/AppTheme.GaryAccent" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlTrailerError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/ivTrailerError"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:contentDescription="@string/error" />
+
+                        <TextView
+                            android:id="@+id/tvTrailerError"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ivError"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/something_went_wrong" />
+
+                        <TextView
+                            android:id="@+id/tvTrailerEmpty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ivError"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/movie_list_is_empty"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tvTrailerRetry"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvError"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dp"
+                            android:drawableLeft="@drawable/ic_refresh_white_24dp"
+                            android:drawableStart="@drawable/ic_refresh_white_24dp"
+                            android:text="@string/tap_to_retry" />
+
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvTrailer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp" />
+
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/tvReviews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_below="@+id/rlTrailers"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/reviews"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorIcon" />
 
+                <RelativeLayout
+                    android:id="@+id/rlReviews"
+                    android:layout_below="@+id/tvReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"
+                    tools:context=".songs_list.view.SongsActivity">
+
+                    <ProgressBar
+                        android:id="@+id/pbReviewsLoading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:theme="@style/AppTheme.GaryAccent" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlReviewsError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/ivReviewsError"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:contentDescription="@string/error" />
+
+                        <TextView
+                            android:id="@+id/tvReviewsError"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ivError"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/something_went_wrong" />
+
+                        <TextView
+                            android:id="@+id/tvReviewsEmpty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ivError"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/movie_list_is_empty"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tvReviewsRetry"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvError"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dp"
+                            android:drawableLeft="@drawable/ic_refresh_white_24dp"
+                            android:drawableStart="@drawable/ic_refresh_white_24dp"
+                            android:text="@string/tap_to_retry" />
+
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvReviews"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp" />
+
+                </RelativeLayout>
 
             </RelativeLayout>
         </ScrollView>
