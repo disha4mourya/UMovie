@@ -1,13 +1,15 @@
 package com.example.popularmovies.movie_list.view;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +22,6 @@ import com.example.popularmovies.movie_detail.view.MovieDetailActivity;
 import com.example.popularmovies.movie_list.contract.MoviesContract;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
 import com.example.popularmovies.movie_list.presenter.MoviesPresenter;
-import com.example.popularmovies.utils.AppExecutors;
 import com.example.popularmovies.utils.ItemClickListner;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     private String selectedType;
     private MenuItem item_popular, item_top_rated, item_favorite;
     private AppDatabase mDb;
+    private List<FavoriteEntity> favoriteEntityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,36 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
                 });
             }
         }).attachToRecyclerView(binding.rvMovies);*/
+
+        if (selectedType.equals(FAVORITE)) {
+            retriveFavoriteMovies();
+        } else {
+            presenter.getMovies(selectedType);
+        }
+    }
+
+    public void retriveFavoriteMovies() {
+        LiveData<List<FavoriteEntity>> tasks = mDb.favoriteDao().loadAllMovies();
+        tasks.observe(this, new Observer<List<FavoriteEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<FavoriteEntity> favoriteEntities) {
+                if (favoriteEntities != null && favoriteEntities.size() > 0) {
+                    //favoriteMoviesAdapter.setData(favoriteEntities);
+                    favoriteEntityList = favoriteEntities;
+                    setDataOnFavoriteAdapter(favoriteEntities);
+                    showMovieList(true);
+                    showProgress(false);
+                    showError(false, false, "", true);
+                    binding.rvMovies.setAdapter(favoriteMoviesAdapter);
+                } else {
+                    showProgress(false);
+                    showMovieList(false);
+                    showError(true, true, context.getString(R.string.movie_list_is_empty), true);
+                }
+            }
+        });
+        favoriteMoviesAdapter.setOnClickListener(this);
+
     }
 
     @Override
@@ -99,10 +131,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         binding.rvMovies.setLayoutManager(mLayoutManager);
         binding.rvMovies.setHasFixedSize(true);
 
-        Log.d("SelectedType", "is " + selectedType);
-        if (selectedType.equals(FAVORITE)) {
-            presenter.getFavoriteMovies();
-        } else {
+        if (!selectedType.equals(FAVORITE)) {
             presenter.getMovies(selectedType);
         }
         setNameOnToolbar();
@@ -134,7 +163,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
             case R.id.menu_favorite:
                 selectedType = FAVORITE;
                 presenter = new MoviesPresenter(this, this);
-                presenter.getFavoriteMovies();
+                retriveFavoriteMovies();
                 //setFavoriteDataOnAdapter();
                 break;
         }
@@ -143,7 +172,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         return true;
     }
 
-    public void setFavoriteDataOnAdapter() {
+   /* public void setFavoriteDataOnAdapter() {
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -162,7 +191,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         favoriteMoviesAdapter.setOnClickListener(this);
 
 
-    }
+    }*/
 
     @Override
     public void showProgress(Boolean show) {
@@ -278,7 +307,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     @Override
     public void onClick(View view, int position) {
         if (selectedType.equals(FAVORITE))
-            presenter.onFavoriteMovieClick(position);
+            showFavoriteMovieDetails(favoriteEntityList.get(position));
         else
             presenter.onMovieClick(position);
     }

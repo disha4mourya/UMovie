@@ -1,7 +1,6 @@
 package com.example.popularmovies.movie_list.model;
 
 import android.app.Activity;
-import android.content.Context;
 
 import com.example.popularmovies.database.AppDatabase;
 import com.example.popularmovies.database.FavoriteEntity;
@@ -19,7 +18,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.popularmovies.utils.Constants.FAVORITE;
 import static com.example.popularmovies.utils.Constants.POPULAR;
 import static com.example.popularmovies.utils.Constants.POPULAR_URL;
 import static com.example.popularmovies.utils.Constants.TOP_RATED;
@@ -82,7 +80,7 @@ public class MoviesModel implements MoviesContract.Model {
             @Override
             public void run() {
                 try {
-                    final List<FavoriteEntity> favoriteEntityList = mDb.favoriteDao().loadAllMovies();
+                   // final List<FavoriteEntity> favoriteEntityList = mDb.favoriteDao().loadAllMovies();
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

@@ -1,5 +1,6 @@
 package com.example.popularmovies.database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface FavoriteDao {
 
     @Query("SELECT * FROM favorite ORDER BY id desc")
-    List<FavoriteEntity> loadAllMovies();
+    LiveData<List<FavoriteEntity>> loadAllMovies();
 
     @Insert
     void insertMovie(FavoriteEntity taskEntry);
