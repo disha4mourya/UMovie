@@ -10,6 +10,7 @@ public class Constants {
     public static String MOVIE_DETAILS = "movieDetails";
     public static String TOP_RATED = "Top Rated";
     public static String FAVORITE = "Favorite";
+    public static String CAMEFROM = "cameFrom";
     public static String POPULAR_URL = "http://api.themoviedb.org/3/movie/popular?api_key=" + MOVIE_API_KEY;
     public static String TOP_RATED_URL = "http://api.themoviedb.org/3/movie/top_rated?api_key=" + MOVIE_API_KEY;
 

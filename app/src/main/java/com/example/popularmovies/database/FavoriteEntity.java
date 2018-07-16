@@ -6,10 +6,12 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.io.SerializablePermission;
 import java.util.List;
 
 @Entity(tableName = "favorite")
-public class FavoriteEntity {
+public class FavoriteEntity implements Serializable {
 
     private String vote_count;
     @PrimaryKey(autoGenerate = true)

@@ -1,5 +1,6 @@
 package com.example.popularmovies.movie_list.contract;
 
+import com.example.popularmovies.database.FavoriteEntity;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
 import com.example.popularmovies.utils.mvp.LoadCallback;
 
@@ -14,13 +15,17 @@ public interface MoviesContract {
 
         void showMovieList(Boolean show);
 
-        void showError(Boolean show, Boolean error,String errorMsg);
+        void showError(Boolean show, Boolean error, String errorMsg);
 
         void showMovieDetails(MoviesEntity moviesEntity);
 
         void setDataOnAdapter(List<MoviesEntity> moviesEntities);
 
         void notifyMovieData();
+
+        void setDataOnFavoriteAdapter(List<FavoriteEntity> favoriteEntities);
+
+        void showFavoriteMovieDetails(FavoriteEntity favoriteEntity);
     }
 
     interface Presenter {
@@ -28,14 +33,24 @@ public interface MoviesContract {
         void getMovies(String type);
 
         void onMovieClick(int position);
+
+        void getFavoriteMovies();
+
+        void onFavoriteMovieClick(int position);
     }
 
     interface Model {
 
-        void fetchMovies(String type,LoadCallback<Response> loadCallback);
+        void fetchMovies(String type, LoadCallback<Response> loadCallback);
 
         void setMoviesEntityList(List<MoviesEntity> moviesEntityList);
 
         List<MoviesEntity> getMoviesEntityList();
+
+        void fetchFavoriteMovies(LoadCallback<List<FavoriteEntity>> loadCallback);
+
+        void setFavoriteMovieEntityList(List<FavoriteEntity> favoriteMovieEntityList);
+
+        List<FavoriteEntity> getFavoriteMoviesEntityList();
     }
 }

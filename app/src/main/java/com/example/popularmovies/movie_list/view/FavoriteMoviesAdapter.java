@@ -50,6 +50,10 @@ public class FavoriteMoviesAdapter extends RecyclerView.Adapter<FavoriteMoviesAd
         return new FavoriteMoviesAdapter.MovieViewHolder(binding);
     }
 
+    public List<FavoriteEntity> getMoviesEntityList() {
+        return moviesEntityList;
+    }
+
     @Override
     public void onBindViewHolder(final FavoriteMoviesAdapter.MovieViewHolder holder, int position) {
         FavoriteEntity moviesEntity = moviesEntityList.get(position);

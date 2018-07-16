@@ -18,6 +18,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import static com.example.popularmovies.utils.Constants.BIG_IMAGE_APPEND;
+import static com.example.popularmovies.utils.Constants.CAMEFROM;
+import static com.example.popularmovies.utils.Constants.FAVORITE;
 import static com.example.popularmovies.utils.Constants.IMAGE_APPEND;
 import static com.example.popularmovies.utils.Constants.MOVIE_DETAILS;
 
@@ -26,6 +28,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ActivityMovieDetailBinding binding;
     private Context context;
     MoviesEntity moviesEntity;
+    FavoriteEntity favoriteEntity;
 
     private AppDatabase mDb;
 
@@ -36,12 +39,23 @@ public class MovieDetailActivity extends AppCompatActivity {
         context = this;
 
         mDb = AppDatabase.getInstance(getApplicationContext());
+
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
+
+
         assert bundle != null;
-        moviesEntity = (MoviesEntity) bundle.getSerializable(MOVIE_DETAILS);
-        if (moviesEntity != null)
-            setDataOnViews();
+        CAMEFROM = bundle.getString(CAMEFROM);
+
+        assert CAMEFROM != null;
+        if (CAMEFROM.equals(FAVORITE)) {
+            favoriteEntity = (FavoriteEntity) bundle.getSerializable(MOVIE_DETAILS);
+            favoriteToMovieEntity();
+        } else {
+            moviesEntity = (MoviesEntity) bundle.getSerializable(MOVIE_DETAILS);
+            if (moviesEntity != null)
+                setDataOnViews();
+        }
 
         binding.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +69,23 @@ public class MovieDetailActivity extends AppCompatActivity {
                 markAsFavorite();
             }
         });
+    }
+
+    public void favoriteToMovieEntity() {
+        moviesEntity = new MoviesEntity();
+        moviesEntity.setId(favoriteEntity.getId());
+        moviesEntity.setAdult(favoriteEntity.getAdult());
+        moviesEntity.setBackdrop_path(favoriteEntity.getBackdrop_path());
+        moviesEntity.setOriginal_language(favoriteEntity.getOriginal_language());
+        moviesEntity.setOriginal_title(favoriteEntity.getOriginal_title());
+        moviesEntity.setOverview(favoriteEntity.getOverview());
+        moviesEntity.setPopularity(favoriteEntity.getPopularity());
+        moviesEntity.setPoster_path(favoriteEntity.getPoster_path());
+        moviesEntity.setRelease_date(favoriteEntity.getRelease_date());
+        moviesEntity.setTitle(favoriteEntity.getTitle());
+        moviesEntity.setVideo(favoriteEntity.getVideo());
+        moviesEntity.setVote_average(favoriteEntity.getVote_average());
+        moviesEntity.setVote_count(favoriteEntity.getVote_count());
     }
 
     public void markAsFavorite() {
