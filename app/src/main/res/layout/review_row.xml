@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
+        android:id="@+id/llReviewRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -18,7 +19,7 @@
         <TextView
            android:layout_margin="10dp"
             android:id="@+id/tvContent"
-            android:text="@string/author"
+            android:text="@string/content"
             android:textSize="12sp"
             android:textColor="@color/colorIcon"
             android:layout_width="match_parent"
@@ -27,14 +28,16 @@
         <TextView
            android:layout_margin="10dp"
             android:id="@+id/tvUrl"
-            android:text="@string/author"
+            android:text="@string/url"
+            android:autoLink="web"
+            android:textColorLink="@color/colorPrimary"
             android:textSize="12sp"
             android:textColor="@color/colorIcon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <View
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"

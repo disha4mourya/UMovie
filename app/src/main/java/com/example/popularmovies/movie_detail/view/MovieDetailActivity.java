@@ -344,6 +344,13 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
     @Override
     public void onClick(View view, int position) {
+        switch (view.getId()) {
+            case R.id.llReviewRow:
 
+                break;
+            case R.id.rlThumbnailRow:
+                presenter.onThumbnailClick(position);
+                break;
+        }
     }
 }

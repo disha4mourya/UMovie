@@ -132,9 +132,13 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
                 view.showReviewProgress(false);
                 view.showReviewError(false, false, "", false);
 
-                model.setReviewsEntityList(response.body().getResults());
-                view.setReviewOnAdapter(response.body().getResults());
-                view.notifyReviewData();
+                if (response.body().getResults()!=null&&response.body().getResults().size()>0) {
+                    model.setReviewsEntityList(response.body().getResults());
+                    view.setReviewOnAdapter(response.body().getResults());
+                    view.notifyReviewData();
+                }else {
+                    view.showReviewError(true, true, context.getString(R.string.no_review_found), true);
+                }
 
                 break;
             default:

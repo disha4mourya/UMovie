@@ -143,18 +143,18 @@
 
 
                 <LinearLayout
-                    android:weightSum="3.1"
                     android:id="@+id/llRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/llBasicDetails"
+                    android:orientation="horizontal"
 
-                    android:orientation="horizontal">
+                    android:weightSum="3.1">
 
                     <LinearLayout
-                        android:layout_weight="2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="2"
                         android:orientation="vertical">
 
                         <ImageView
@@ -175,9 +175,9 @@
                             android:visibility="visible" />
 
                         <LinearLayout
-                            android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:orientation="horizontal">
 
                             <RatingBar
@@ -191,8 +191,8 @@
                                 android:theme="@style/RatingBar" />
 
 
-
                         </LinearLayout>
+
                         <TextView
                             android:id="@+id/tvTotalCount"
                             android:layout_width="wrap_content"
@@ -204,42 +204,43 @@
                     </LinearLayout>
 
                     <RelativeLayout
-                        android:layout_weight="0.1"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1">
+
                         <View
-                            android:background="@color/colorDarkerDivider"
                             android:layout_width="1dp"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent"
+                            android:background="@color/colorDarkerDivider" />
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1">
 
                         <ImageView
-                            android:layout_centerHorizontal="true"
                             android:id="@+id/ivFavorite"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
+                            android:layout_centerHorizontal="true"
                             android:clickable="true"
                             android:contentDescription="@string/back"
                             android:focusable="true"
                             android:src="@drawable/unmarkedstar" />
 
                         <TextView
-                           android:gravity="center_horizontal"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginTop="5dp"
-                            android:layout_below="@+id/ivFavorite"
                             android:id="@+id/tvFavorite"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_below="@+id/ivFavorite"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center_horizontal"
+                            android:text="@string/mark_as_favorite"
                             android:textColor="@color/colorDivider"
                             android:textSize="12sp"
-                            android:text="@string/mark_as_favorite"
                             android:visibility="visible" />
 
 
@@ -282,17 +283,18 @@
                     android:textColor="@color/colorIcon" />
 
                 <View
-                    android:layout_margin="10dp"
                     android:id="@+id/viewTrailers"
-                    android:layout_below="@+id/tvTrailers"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorDivider"/>
+                    android:layout_below="@+id/tvTrailers"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorDivider" />
+
                 <RelativeLayout
                     android:id="@+id/rlTrailers"
-                    android:layout_below="@+id/viewTrailers"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_below="@+id/viewTrailers"
                     android:background="@color/colorAccent"
                     tools:context=".songs_list.view.SongsActivity">
 
@@ -336,15 +338,15 @@
 
                         <TextView
                             android:id="@+id/tvTrailerRetry"
-                            android:clickable="true"
-                            android:focusable="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tvError"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
+                            android:clickable="true"
                             android:drawableLeft="@drawable/ic_refresh_white_24dp"
                             android:drawableStart="@drawable/ic_refresh_white_24dp"
+                            android:focusable="true"
                             android:text="@string/tap_to_retry" />
 
                     </RelativeLayout>
@@ -371,17 +373,18 @@
                     android:textColor="@color/colorIcon" />
 
                 <View
-                    android:layout_margin="10dp"
                     android:id="@+id/viewReviews"
-                    android:layout_below="@+id/tvReviews"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorDivider"/>
+                    android:layout_below="@+id/tvReviews"
+                    android:layout_margin="10dp"
+                    android:background="@color/colorDivider" />
+
                 <RelativeLayout
                     android:id="@+id/rlReviews"
-                    android:layout_below="@+id/viewReviews"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_below="@+id/viewReviews"
                     android:background="@color/colorAccent"
                     tools:context=".songs_list.view.SongsActivity">
 
@@ -410,30 +413,40 @@
                             android:id="@+id/tvReviewsError"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/ivError"
+                            android:layout_below="@+id/ivReviewsError"
                             android:layout_marginTop="10dp"
+                            android:gravity="center_horizontal"
                             android:text="@string/something_went_wrong" />
 
                         <TextView
+                            android:layout_centerInParent="true"
                             android:id="@+id/tvReviewsEmpty"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/ivError"
+                            android:layout_below="@+id/ivReviewsError"
                             android:layout_marginTop="10dp"
                             android:text="@string/movie_list_is_empty"
                             android:visibility="gone" />
 
+                        <!--<View
+                            android:id="@+id/view"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@+id/tvReviewsError"
+                            android:layout_margin="10dp"
+                            android:background="@color/colorDivider" />-->
+
                         <TextView
                             android:id="@+id/tvReviewsRetry"
-                            android:clickable="true"
-                            android:focusable="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tvError"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="5dp"
+                            android:clickable="true"
                             android:drawableLeft="@drawable/ic_refresh_white_24dp"
                             android:drawableStart="@drawable/ic_refresh_white_24dp"
+                            android:focusable="true"
                             android:text="@string/tap_to_retry" />
 
                     </RelativeLayout>
