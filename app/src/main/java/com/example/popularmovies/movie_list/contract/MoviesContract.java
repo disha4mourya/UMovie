@@ -33,10 +33,6 @@ public interface MoviesContract {
         void getMovies(String type);
 
         void onMovieClick(int position);
-
-        void getFavoriteMovies();
-
-        void onFavoriteMovieClick(int position);
     }
 
     interface Model {
@@ -47,10 +43,5 @@ public interface MoviesContract {
 
         List<MoviesEntity> getMoviesEntityList();
 
-        void fetchFavoriteMovies(LoadCallback<List<FavoriteEntity>> loadCallback);
-
-        void setFavoriteMovieEntityList(List<FavoriteEntity> favoriteMovieEntityList);
-
-        List<FavoriteEntity> getFavoriteMoviesEntityList();
     }
 }

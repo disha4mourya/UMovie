@@ -11,8 +11,10 @@ import retrofit2.http.Url;
 public interface NetworkService {
     @GET()
     Call<MovieResult> getMoviesList(@Url String url);
+
     @GET()
     Call<MovieDetailsVideoResult> getVideosList(@Url String url);
+
     @GET()
     Call<MovieDetailsReviewResult> getReviesList(@Url String url);
 }

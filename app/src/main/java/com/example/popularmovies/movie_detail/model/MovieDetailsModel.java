@@ -92,8 +92,4 @@ public class MovieDetailsModel implements MovieDetailsContract.Model {
         this.movieDetailsReviewEntityList = moviesEntityList;
     }
 
-    @Override
-    public List<MovieDetailsReviewEntity> getReviewsEntityList() {
-        return movieDetailsReviewEntityList;
-    }
 }

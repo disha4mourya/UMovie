@@ -27,4 +27,7 @@
     <string name="content">Content</string>
     <string name="url">www.goole.com</string>
     <string name="no_review_found">No review found.</string>
+    <string name="watch_this">Watch this</string>
+    <string name="amazing_trailer">This trailer is amazing.</string>
+    <string name="choose_one">choose one</string>
 </resources>

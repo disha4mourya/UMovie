@@ -29,13 +29,14 @@ import java.util.List;
 import static com.example.popularmovies.utils.Constants.BIG_IMAGE_APPEND;
 import static com.example.popularmovies.utils.Constants.IMAGE_APPEND;
 import static com.example.popularmovies.utils.Constants.MOVIE_DETAILS;
+import static com.example.popularmovies.utils.Constants.PRE_APP_YOUTUBE;
+import static com.example.popularmovies.utils.Constants.PRE_YOUTUBE;
 
 
 public class MovieDetailActivity extends AppCompatActivity implements MovieDetailsContract.View, ItemClickListner {
     private ActivityMovieDetailBinding binding;
     private Context context;
     MoviesEntity moviesEntity;
-    FavoriteEntity favoriteEntity;
 
     private AppDatabase mDb;
 
@@ -142,37 +143,6 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
                 }
             }
         });
-        /*if (checkFavoriteStoredData(moviesEntity.getId()) != null) {
-
-            Log.d("alreadymarked", "datailcheck " + moviesEntity.getId());
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    mDb.favoriteDao().deleteMovie(moviesEntity.getId());
-                }
-            });
-            binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.unmarkedstar));
-            binding.tvFavorite.setText(R.string.mark_as_favorite);
-            Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
-
-        } else {
-            binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.markedstar));
-            binding.tvFavorite.setText(R.string.remove_from_favorites);
-            final FavoriteEntity favoriteEntity = new FavoriteEntity(moviesEntity.getVote_count(), String.valueOf(moviesEntity.getId()), moviesEntity.getVideo(),
-                    moviesEntity.getVote_average(), moviesEntity.getTitle(), moviesEntity.getPopularity(), moviesEntity.getPoster_path(),
-                    moviesEntity.getOriginal_language(), moviesEntity.getOriginal_title(),
-                    moviesEntity.getBackdrop_path(), moviesEntity.getAdult(), moviesEntity.getOverview(), moviesEntity.getRelease_date());
-
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    mDb.favoriteDao().insertMovie(favoriteEntity);
-                }
-            });
-
-            this.favoriteEntity = null;
-            Toast.makeText(context, "Marked as favorite!!!", Toast.LENGTH_SHORT).show();
-        }*/
     }
 
     @Override
@@ -239,15 +209,6 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
                 }
             }
         });
-        /*FavoriteEntity favoriteEntity = checkFavoriteStoredData(moviesEntity.getId());
-        if (favoriteEntity != null) {
-            binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.markedstar));
-            this.favoriteEntity = null;
-        } else {
-            Log.d("gotThisId", "db" + "didn't get");
-        }*/
-
-
     }
 
 
@@ -284,16 +245,11 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
     public void showTrailer(MovieDetailsVideoEntity moviesEntity) {
 
         try {
-
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://" + moviesEntity.getKey()));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(PRE_APP_YOUTUBE + moviesEntity.getKey()));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-
         } catch (ActivityNotFoundException e) {
-
-            // youtube is not installed.Will be opened in other available apps
-
-            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/watch?v=" + moviesEntity.getKey()));
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(PRE_YOUTUBE + moviesEntity.getKey()));
             startActivity(i);
         }
     }
@@ -303,11 +259,11 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
         try {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
-            i.putExtra(Intent.EXTRA_SUBJECT, "Watch this");
-            String sAux = "\nThis trailer is amazing.\n\n";
-            sAux = sAux + "https://youtube.com/watch?v=" + moviesEntity.getKey() + "\n\n";
+            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.watch_this));
+            String sAux = getString(R.string.amazing_trailer);
+            sAux = sAux + PRE_YOUTUBE + moviesEntity.getKey() + "\n\n";
             i.putExtra(Intent.EXTRA_TEXT, sAux);
-            startActivity(Intent.createChooser(i, "choose one"));
+            startActivity(Intent.createChooser(i, getString(R.string.choose_one)));
         } catch (Exception e) {
             //e.toString();
         }

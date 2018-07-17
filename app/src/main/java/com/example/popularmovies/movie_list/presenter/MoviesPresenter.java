@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.example.popularmovies.R;
 import com.example.popularmovies.base.PopularMoviesApplication;
-import com.example.popularmovies.database.FavoriteEntity;
 import com.example.popularmovies.movie_list.contract.MoviesContract;
 import com.example.popularmovies.movie_list.entity.MovieResult;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
@@ -13,8 +12,6 @@ import com.example.popularmovies.movie_list.model.MoviesModel;
 import com.example.popularmovies.network.ServiceManager;
 import com.example.popularmovies.utils.ResponseCodes;
 import com.example.popularmovies.utils.mvp.LoadCallback;
-
-import java.util.List;
 
 import retrofit2.Response;
 
@@ -98,41 +95,5 @@ public class MoviesPresenter implements MoviesContract.Presenter {
         if (moviesEntity != null) {
             view.showMovieDetails(moviesEntity);
         }
-    }
-
-    @Override
-    public void getFavoriteMovies() {
-
-        model.fetchFavoriteMovies(new LoadCallback<List<FavoriteEntity>>() {
-            @Override
-            public void onSuccess(List<FavoriteEntity> response) {
-                view.showMovieList(true);
-                view.showProgress(false);
-                view.showError(false, false, "",true);
-                model.setFavoriteMovieEntityList(response);
-                if (response.size() > 0) {
-                    view.setDataOnFavoriteAdapter(response);
-                } else {
-                    view.showProgress(false);
-                    view.showMovieList(false);
-                    view.showError(true, true, context.getString(R.string.movie_list_is_empty),true);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                view.showProgress(false);
-                view.showMovieList(false);
-                view.showError(true, true, context.getString(R.string.something_went_wrong),true);
-            }
-        });
-
-    }
-
-    @Override
-    public void onFavoriteMovieClick(int position) {
-        FavoriteEntity favoriteEntity = model.getFavoriteMoviesEntityList().get(position);
-        if (favoriteEntity != null)
-            view.showFavoriteMovieDetails(favoriteEntity);
     }
 }

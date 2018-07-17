@@ -17,6 +17,7 @@ public class Constants {
     public static String POST_REVIEW = "/reviews?api_key=" + MOVIE_API_KEY;
     public static String POST_VIDEO = "/videos?api_key=" + MOVIE_API_KEY;
     public static String PRE_YOUTUBE = "https://www.youtube.com/watch?v=";
+    public static String PRE_APP_YOUTUBE = "vnd.youtube://";
     public static String PRE_YOUTUBE_THUMBNAIL = "https://img.youtube.com/vi/";
 
 }

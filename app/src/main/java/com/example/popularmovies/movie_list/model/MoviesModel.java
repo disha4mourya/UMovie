@@ -8,7 +8,6 @@ import com.example.popularmovies.movie_list.contract.MoviesContract;
 import com.example.popularmovies.movie_list.entity.MovieResult;
 import com.example.popularmovies.movie_list.entity.MoviesEntity;
 import com.example.popularmovies.network.ApiClient;
-import com.example.popularmovies.utils.AppExecutors;
 import com.example.popularmovies.utils.mvp.LoadCallback;
 
 import java.util.ArrayList;
@@ -73,42 +72,4 @@ public class MoviesModel implements MoviesContract.Model {
         return moviesEntityList;
     }
 
-    @Override
-    public void fetchFavoriteMovies(final LoadCallback<List<FavoriteEntity>> loadCallback) {
-
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                   // final List<FavoriteEntity> favoriteEntityList = mDb.favoriteDao().loadAllMovies();
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            loadCallback.onSuccess(favoriteEntityList);
-                        }
-                    });
-
-                } catch (final Throwable t) {
-
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            loadCallback.onFailure(t);
-                        }
-                    });
-
-                }
-            }
-        });
-    }
-
-    @Override
-    public void setFavoriteMovieEntityList(List<FavoriteEntity> favoriteMovieEntityList) {
-        this.favoriteEntityList = favoriteMovieEntityList;
-    }
-
-    @Override
-    public List<FavoriteEntity> getFavoriteMoviesEntityList() {
-        return favoriteEntityList;
-    }
 }

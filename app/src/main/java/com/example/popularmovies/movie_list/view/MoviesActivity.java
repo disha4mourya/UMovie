@@ -52,7 +52,6 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movies);
         context = this;
         mDb = AppDatabase.getInstance(getApplicationContext());
-        // selectedType = POPULAR;
         presenter = createPresenter();
 
         adapter = new MoviesAdapter(this);
@@ -63,29 +62,6 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
                 presenter.getMovies(selectedType);
             }
         });
-
-        /*new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.UP | ItemTouchHelper.DOWN) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, final RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            // Called when a user swipes left or right on a ViewHolder
-            @Override
-            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        int position = viewHolder.getAdapterPosition();
-                        List<FavoriteEntity> favoriteEntities = favoriteMoviesAdapter.getMoviesEntityList();
-                        mDb.favoriteDao().deleteMovie(favoriteEntities.get(position).getId());
-                        createPresenter(selectedType);
-                    }
-                });
-            }
-        }).attachToRecyclerView(binding.rvMovies);*/
-
-        Log.d("restoringTheDataOncreat", "is " + selectedType);
 
         if (savedInstanceState != null)
             selectedType = savedInstanceState.getString("selectedType");
@@ -101,16 +77,12 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     }
 
     private void setupViewModel() {
-        // COMPLETED (5) Remove the logging and the call to loadAllTasks, this is done in the ViewModel now
-        // COMPLETED (6) Declare a ViewModel variable and initialize it by calling ViewModelProviders.of
-        MoviesViewModel viewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
-        // COMPLETED (7) Observe the LiveData object in the ViewModel
+         MoviesViewModel viewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
         viewModel.getFavoriteEntities().observe(this, new Observer<List<FavoriteEntity>>() {
 
             @Override
             public void onChanged(@Nullable List<FavoriteEntity> favoriteEntities) {
                 if (favoriteEntities != null && favoriteEntities.size() > 0) {
-                    //favoriteMoviesAdapter.setData(favoriteEntities);
                     favoriteEntityList = favoriteEntities;
                     setDataOnFavoriteAdapter(favoriteEntities);
                     showMovieList(true);
@@ -126,30 +98,6 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         });
     }
 
-    /*public void retriveFavoriteMovies() {
-        LiveData<List<FavoriteEntity>> tasks = mDb.favoriteDao().loadAllMovies();
-        tasks.observe(this, new Observer<List<FavoriteEntity>>() {
-            @Override
-            public void onChanged(@Nullable List<FavoriteEntity> favoriteEntities) {
-                if (favoriteEntities != null && favoriteEntities.size() > 0) {
-                    //favoriteMoviesAdapter.setData(favoriteEntities);
-                    favoriteEntityList = favoriteEntities;
-                    setDataOnFavoriteAdapter(favoriteEntities);
-                    showMovieList(true);
-                    showProgress(false);
-                    showError(false, false, "", true);
-                    binding.rvMovies.setAdapter(favoriteMoviesAdapter);
-                } else {
-                    showProgress(false);
-                    showMovieList(false);
-                    showError(true, true, context.getString(R.string.movie_list_is_empty), true);
-                }
-            }
-        });
-        favoriteMoviesAdapter.setOnClickListener(this);
-
-    }
-*/
     @Override
     protected void onResume() {
         super.onResume();
@@ -206,27 +154,6 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         return true;
     }
 
-   /* public void setFavoriteDataOnAdapter() {
-
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                final List<FavoriteEntity> favoriteEntityList = mDb.favoriteDao().loadAllMovies();
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        favoriteMoviesAdapter.setData(favoriteEntityList);
-                        binding.rvMovies.setAdapter(favoriteMoviesAdapter);
-                    }
-                });
-            }
-        });
-        favoriteMoviesAdapter.setOnClickListener(this);
-
-
-    }*/
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -234,21 +161,6 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
 
         outState.putString("selectedType", selectedType);
     }
-
-   /* @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        Log.d("restoringTheData", "is " + savedInstanceState.getString("selectedType"));
-        selectedType = savedInstanceState.getString("selectedType");
-
-        if (selectedType.equals(FAVORITE)) {
-            retriveFavoriteMovies();
-        } else {
-            presenter.getMovies(selectedType);
-        }
-
-        setNameOnToolbar();
-    }*/
 
     @Override
     public void showProgress(Boolean show) {
@@ -324,7 +236,6 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         favoriteMoviesAdapter.setData(favoriteEntities);
         binding.rvMovies.setAdapter(favoriteMoviesAdapter);
         favoriteMoviesAdapter.setOnClickListener(this);
-        // setMenuItems();
     }
 
     private MoviesPresenter createPresenter() {

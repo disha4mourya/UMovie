@@ -58,6 +58,5 @@ public interface MovieDetailsContract {
 
         void setReviewsEntityList(List<MovieDetailsReviewEntity> moviesEntityList);
 
-        List<MovieDetailsReviewEntity> getReviewsEntityList();
     }
 }
