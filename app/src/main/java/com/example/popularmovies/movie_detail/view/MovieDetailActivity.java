@@ -83,11 +83,13 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
         LinearLayoutManager mLayoutManagerTrailer = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
 
+        binding.rvTrailer.setNestedScrollingEnabled(true);
         binding.rvTrailer.setLayoutManager(mLayoutManagerTrailer);
         binding.rvTrailer.setHasFixedSize(true);
 
         LinearLayoutManager mLayoutManagerReview = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
+        binding.rvReviews.setNestedScrollingEnabled(true);
         binding.rvReviews.setLayoutManager(mLayoutManagerReview);
         binding.rvReviews.setHasFixedSize(true);
     }

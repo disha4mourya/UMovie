@@ -10,7 +10,7 @@
         tools:context=".movie_detail.view.MovieDetailActivity">
 
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorAccent">
@@ -419,11 +419,11 @@
                             android:text="@string/something_went_wrong" />
 
                         <TextView
-                            android:layout_centerInParent="true"
                             android:id="@+id/tvReviewsEmpty"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/ivReviewsError"
+                            android:layout_centerInParent="true"
                             android:layout_marginTop="10dp"
                             android:text="@string/movie_list_is_empty"
                             android:visibility="gone" />
@@ -460,7 +460,7 @@
                 </RelativeLayout>
 
             </RelativeLayout>
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
         <ImageView
             android:id="@+id/ivBack"
