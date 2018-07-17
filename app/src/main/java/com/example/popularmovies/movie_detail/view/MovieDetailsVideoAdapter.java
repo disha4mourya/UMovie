@@ -55,7 +55,7 @@ public class MovieDetailsVideoAdapter extends RecyclerView.Adapter<MovieDetailsV
 
         setAnimation(holder.itemView, position);
 
-        Picasso.with(context).load(PRE_YOUTUBE_THUMBNAIL + moviesEntity.getKey()+"/0.jpg")
+        Picasso.with(context).load(PRE_YOUTUBE_THUMBNAIL + moviesEntity.getKey() + "/0.jpg")
                 .error(R.drawable.error)
                 .into(holder.binding.ivThumbnail, new Callback() {
                     @Override
@@ -100,6 +100,8 @@ public class MovieDetailsVideoAdapter extends RecyclerView.Adapter<MovieDetailsV
             super(binding.getRoot());
             this.binding = binding;
             itemView.setOnClickListener(this);
+            binding.ivThumbnail.setOnClickListener(this);
+            binding.ivShare.setOnClickListener(this);
         }
 
 

@@ -159,4 +159,11 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
         if (favoriteEntity != null)
             view.showTrailer(favoriteEntity);
     }
+
+    @Override
+    public void onShareClick(int position) {
+        MovieDetailsVideoEntity favoriteEntity = model.getVideosEntityList().get(position);
+        if (favoriteEntity != null)
+            view.shareTrailer(favoriteEntity);
+    }
 }

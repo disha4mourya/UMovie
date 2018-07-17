@@ -297,6 +297,21 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
     }
 
     @Override
+    public void shareTrailer(MovieDetailsVideoEntity moviesEntity) {
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, "Watch this");
+            String sAux = "\nThis trailer is amazing.\n\n";
+            sAux = sAux + "https://youtube.com/watch?v=" + moviesEntity.getKey() + "\n\n";
+            i.putExtra(Intent.EXTRA_TEXT, sAux);
+            startActivity(Intent.createChooser(i, "choose one"));
+        } catch (Exception e) {
+            //e.toString();
+        }
+    }
+
+    @Override
     public void setThumbnailsOnAdapter(List<MovieDetailsVideoEntity> moviesEntities) {
         movieDetailsVideoAdapter.setData(moviesEntities);
         binding.rvTrailer.setAdapter(movieDetailsVideoAdapter);
@@ -345,10 +360,10 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
     @Override
     public void onClick(View view, int position) {
         switch (view.getId()) {
-            case R.id.llReviewRow:
-
+            case R.id.ivShare:
+                presenter.onShareClick(position);
                 break;
-            case R.id.rlThumbnailRow:
+            case R.id.ivThumbnail:
                 presenter.onThumbnailClick(position);
                 break;
         }

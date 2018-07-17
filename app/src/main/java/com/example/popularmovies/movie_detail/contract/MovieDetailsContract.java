@@ -19,6 +19,8 @@ public interface MovieDetailsContract {
 
         void showTrailer(MovieDetailsVideoEntity moviesEntity);
 
+        void shareTrailer(MovieDetailsVideoEntity moviesEntity);
+
         void setThumbnailsOnAdapter(List<MovieDetailsVideoEntity> moviesEntities);
 
         void notifyVideoData();
@@ -41,11 +43,12 @@ public interface MovieDetailsContract {
         void getReviews(String id);
 
         void onThumbnailClick(int position);
+        void onShareClick(int position);
     }
 
     interface Model {
 
-        void fetchVideos( String id,LoadCallback<Response> loadCallback);
+        void fetchVideos(String id, LoadCallback<Response> loadCallback);
 
         void setVideosEntityList(List<MovieDetailsVideoEntity> moviesEntityList);
 

@@ -9,49 +9,59 @@
 
         <ProgressBar
             android:id="@+id/pbLoadingThumbnail"
-            android:layout_marginTop="60dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
             android:theme="@style/AppTheme.GaryAccent" />
 
+
         <ImageView
-            android:foreground="@drawable/gradient_shade"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:id="@+id/ivThumbnail"
-            android:contentDescription="@string/movie_banner"
             android:layout_width="180dp"
             android:layout_height="140dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/movie_banner"
+            android:foreground="@drawable/gradient_shade"
             android:scaleType="fitXY" />
 
         <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="0dp"
-            android:layout_below="@+id/ivThumbnail"
             android:id="@+id/tvName"
-            android:text="@string/movie_name"
-            android:textSize="12sp"
-            android:textColor="@color/colorIcon"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivThumbnail"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/movie_name"
+            android:textColor="@color/colorIcon"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tvMovieLang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
-            android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="0dp"
             android:text="@string/language"
-            android:textSize="10sp"
             android:textColor="@color/colorDivider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="10sp" />
 
+        <ImageView
+            android:id="@+id/ivShare"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvName"
+            android:layout_margin="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_share_white_24dp" />
 
     </RelativeLayout>
 
