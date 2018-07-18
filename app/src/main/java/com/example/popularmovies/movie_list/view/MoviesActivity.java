@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -46,6 +47,10 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     private AppDatabase mDb;
     private List<FavoriteEntity> favoriteEntityList;
 
+    GridLayoutManager mLayoutManager;
+    private Parcelable mRecipeListParcelable;
+    private int mScrollPosition = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +68,10 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
             }
         });
 
-        if (savedInstanceState != null)
+        if (savedInstanceState != null) {
             selectedType = savedInstanceState.getString("selectedType");
+            mScrollPosition = savedInstanceState.getInt("scrollPosition");
+        }
 
         assert selectedType != null;
         if (selectedType.equals(FAVORITE)) {
@@ -77,7 +84,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     }
 
     private void setupViewModel() {
-         MoviesViewModel viewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
+        MoviesViewModel viewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
         viewModel.getFavoriteEntities().observe(this, new Observer<List<FavoriteEntity>>() {
 
             @Override
@@ -103,7 +110,7 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         super.onResume();
 
         int orientation = this.getResources().getConfiguration().orientation;
-        GridLayoutManager mLayoutManager;
+
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             mLayoutManager = new GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false);
         } else {
@@ -159,8 +166,17 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         super.onSaveInstanceState(outState);
         Log.d("storingTheData", "is " + selectedType);
 
+
+        int scrollPosition = ((GridLayoutManager)
+                binding.rvMovies.getLayoutManager())
+                .findFirstCompletelyVisibleItemPosition();
+        mRecipeListParcelable = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable("recyclerPosition", mRecipeListParcelable);
+        outState.putInt("scrollPosition", scrollPosition);
+
         outState.putString("selectedType", selectedType);
     }
+
 
     @Override
     public void showProgress(Boolean show) {
@@ -222,6 +238,8 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         adapter.setData(moviesEntities);
         binding.rvMovies.setAdapter(adapter);
         adapter.setOnClickListener(this);
+        binding.rvMovies.scrollToPosition(mScrollPosition);
+
         setMenuItems();
     }
 

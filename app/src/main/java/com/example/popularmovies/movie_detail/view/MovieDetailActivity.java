@@ -204,6 +204,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
                         @Override
                         public void run() {
                             binding.ivFavorite.setImageDrawable(getResources().getDrawable(R.drawable.markedstar));
+                            binding.tvFavorite.setText(R.string.remove_from_favorites);
                         }
                     });
                 }
