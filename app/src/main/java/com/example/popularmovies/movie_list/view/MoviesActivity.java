@@ -7,17 +7,14 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.popularmovies.R;
-import com.example.popularmovies.database.AppDatabase;
 import com.example.popularmovies.database.FavoriteEntity;
 import com.example.popularmovies.databinding.ActivityMoviesBinding;
 import com.example.popularmovies.movie_detail.view.MovieDetailActivity;
@@ -44,11 +41,9 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     private FavoriteMoviesAdapter favoriteMoviesAdapter;
     private String selectedType = POPULAR;
     private MenuItem item_popular, item_top_rated, item_favorite;
-    private AppDatabase mDb;
     private List<FavoriteEntity> favoriteEntityList;
 
     GridLayoutManager mLayoutManager;
-    private Parcelable mRecipeListParcelable;
     private int mScrollPosition = -1;
 
     @Override
@@ -56,7 +51,6 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movies);
         context = this;
-        mDb = AppDatabase.getInstance(getApplicationContext());
         presenter = createPresenter();
 
         adapter = new MoviesAdapter(this);
@@ -69,8 +63,8 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
         });
 
         if (savedInstanceState != null) {
-            selectedType = savedInstanceState.getString("selectedType");
-            mScrollPosition = savedInstanceState.getInt("scrollPosition");
+            selectedType = savedInstanceState.getString(getString(R.string.selected_type));
+            mScrollPosition = savedInstanceState.getInt(getString(R.string.scroll_position));
         }
 
         assert selectedType != null;
@@ -164,17 +158,12 @@ public class MoviesActivity extends AppCompatActivity implements MoviesContract.
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d("storingTheData", "is " + selectedType);
-
 
         int scrollPosition = ((GridLayoutManager)
                 binding.rvMovies.getLayoutManager())
                 .findFirstCompletelyVisibleItemPosition();
-        mRecipeListParcelable = mLayoutManager.onSaveInstanceState();
-        outState.putParcelable("recyclerPosition", mRecipeListParcelable);
-        outState.putInt("scrollPosition", scrollPosition);
-
-        outState.putString("selectedType", selectedType);
+        outState.putInt(getString(R.string.scroll_position), scrollPosition);
+        outState.putString(getString(R.string.selected_type), selectedType);
     }
 
 

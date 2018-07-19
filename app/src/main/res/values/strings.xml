@@ -30,4 +30,6 @@
     <string name="watch_this">Watch this</string>
     <string name="amazing_trailer">This trailer is amazing.</string>
     <string name="choose_one">choose one</string>
+    <string name="selected_type">selectedType</string>
+    <string name="scroll_position">scrollPosition</string>
 </resources>
